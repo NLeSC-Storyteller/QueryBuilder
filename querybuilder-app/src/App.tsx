@@ -1,9 +1,9 @@
 import * as React from 'react';
 
+import './ReduxStore/ReduxStore';
+
 import './App.css';
 import logo from './logo.svg';
-
-import './ReduxStore/ReduxStore';
 
 export class App extends React.Component<{}, {}> {
 

@@ -1,8 +1,8 @@
 import { EntityNode } from './EntityNode';
 
-export const EntityNodeReducer = (state: any = [], action: any) => {
+export const entityNodeReducer = (state: any = [], action: any) => {
     if (action.name === 'LOAD_CHILDREN') {
-        return state.map(n => {
+        return state.map((n: EntityNode) => {
             return new EntityNode(
                 n.fetch_url,
                 n.children_count,
@@ -16,4 +16,4 @@ export const EntityNodeReducer = (state: any = [], action: any) => {
     } else {
         return state;
     }
-}
+};
