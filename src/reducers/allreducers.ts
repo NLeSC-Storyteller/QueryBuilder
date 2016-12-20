@@ -3,7 +3,7 @@ import { IStore }         from '../interfaces';
 import { nodesReducer }   from '../reducers';
 
 const initstate: IStore = {
-    nodes: []
+    nodes: {}
 };
 
 export const allreducers = (state: IStore = initstate, action: IGenericAction) => {

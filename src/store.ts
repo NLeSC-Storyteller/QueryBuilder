@@ -4,7 +4,7 @@ import thunk               from 'redux-thunk';
 
 import { allreducers }     from './reducers';
 
-import { childrenRequestedThunk } from './actions';
+import { rootRequestedThunk } from './actions';
 
 export const store = createStore(allreducers, applyMiddleware(thunk));
 
@@ -13,5 +13,4 @@ store.subscribe(() => {
     console.log(store.getState());
 });
 
-const rootnode = 0;
-store.dispatch(childrenRequestedThunk(rootnode));
+store.dispatch(rootRequestedThunk());

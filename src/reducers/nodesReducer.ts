@@ -1,60 +1,155 @@
 import 'whatwg-fetch';
 
-import { CHILDREN_RECEIVED }          from '../actions';
-import { CHILDREN_REQUESTED }         from '../actions';
-import { EXPAND_BUTTON_WAS_CLICKED }  from '../actions';
-import { IGenericAction }             from '../actions';
+import { ROOT_RECEIVED }                from '../actions';
+import { ROOT_REQUESTED }               from '../actions';
+import { CHILDREN_RECEIVED }            from '../actions';
+import { CHILDREN_REQUESTED }           from '../actions';
+import { EXPAND_BUTTON_WAS_CLICKED }    from '../actions';
+import { SELECTION_WAS_CLICKED }        from '../actions';
+import { IGenericAction }               from '../actions';
 
-import { INode }   from '../interfaces';
+import { SelectionState }               from '../interfaces';
 
-const initstate: INode[] = [];
+import { INewNode }                     from '../components/NewNode';
 
-export const nodesReducer = (nodes: INode[] = initstate, action: IGenericAction) => {
-    switch (action.type) {
-        case CHILDREN_RECEIVED:
+const initstate: any = {};
 
-            const payloadNodes = action.payload.nodes;
+export const nodesReducer = (nodes: any = initstate, action: IGenericAction) => {
+    /*
+        Updates the selection state of nodes based on the new selection state, 
+        and does so for all children, grandchildren etc. recursively down the tree.
+    */
+    function recursiveUpdateSelectionStateDown(selectionID: number, newState: SelectionState ) {
+        const selectedNode = nodes[selectionID];
 
-            // who is the parent common to all nodes from payload
-            const firstParentId: number = payloadNodes[0].childof;
-            const parentIsTheSame = (payloadNode: INode) => {
-                return firstParentId === payloadNode.childof;
-            };
-            const payloadNodesHaveCommonParent = payloadNodes.every(parentIsTheSame);
-            if (payloadNodesHaveCommonParent === false) {
-                throw new Error('Not all dbrecords have the same parent.');
-            }
+        const childrenIDs: number[] = selectedNode.children;
+        if (selectedNode.children && childrenIDs.length > 0) {
+            childrenIDs.forEach((childID: number) => {
+                nodes[childID] = Object.assign({}, nodes[childID], {selectionState: newState});
+                recursiveUpdateSelectionStateDown(childID, newState);
+            });
+        }
+    }
 
-            // get position of parent in old state
-            const parentIndex = nodes.findIndex((node: INode) => {
-                return node.id === firstParentId;
+    /*
+        Updates the selection state of nodes based on the new selection state, 
+        and does so for all parents, grandparents etc. recursively up the tree.
+    */
+    function recursiveUpdateSelectionStateUp(selectionID : number) {
+        const selectedNode = nodes[selectionID];
+
+        const parentID = selectedNode.parent;
+        if (parentID !== -1) {
+            const parentNode = nodes[parentID];
+
+            //The children of our parent are our siblings
+            const siblingIDs = parentNode.children;
+
+            /* Determine the new state of our parent. Either
+                - Selected, if all siblings are selected
+                - Partial, if some siblings are selected
+                - Unselected, if no siblings are selected
+            */
+            let allSelected = true;
+            let someSelected = false;
+
+            siblingIDs.forEach((siblingID: number) => {
+                const sibling = nodes[siblingID];
+                if (sibling.selectionState === SelectionState.Unselected) {
+                    allSelected = false;
+                } else if (sibling.selectionState === SelectionState.Partial) {
+                    allSelected = false;
+                    someSelected = true;
+                } else if (sibling.selectionState === SelectionState.Selected) {
+                    someSelected = true;
+                }
             });
 
-            if (parentIndex === -1) {
-                // overwrite nodes with the list of wrapped database records
-                return payloadNodes;
-            } else {
-                // the new state is old state from 0 up to and including
-                // the parent, followed by the nodes that we fetch from
-                // the database, followed by the remaining nodes from 
-                // old state.
-                const begin = nodes.slice(0, parentIndex + 1);
-                const middle = payloadNodes;
-                const end = nodes.slice(parentIndex + 1);
-                return begin.concat(middle).concat(end);
+            let newParentState = SelectionState.Unselected;
+            if (allSelected) {
+                newParentState = SelectionState.Selected;
+            } else if (someSelected) {
+                newParentState = SelectionState.Partial;
             }
+
+            nodes[parentID] = Object.assign({}, nodes[parentID], {selectionState: newParentState});
+
+            recursiveUpdateSelectionStateUp(parentID);
+        }
+    }
+
+    switch (action.type) {
+        case ROOT_RECEIVED:
+            //RootRequestedThunk return point
+            const root = action.payload.root;
+            return { [root.id]: root };
+        case ROOT_REQUESTED:
+            console.error('Make a spinner or something');
+            return nodes;
+        case CHILDREN_RECEIVED:
+            //ChildrenRequestedThunk return point
+            const payloadNodes = action.payload.nodes;
+
+            //Copy the parent node
+            let oldParent = nodes[payloadNodes[0].parent];
+            let newParent = Object.assign({}, oldParent);
+            //With a deep copy of its children array.
+            newParent.children = [];
+            if (oldParent.children !== undefined) {
+                oldParent.children.forEach((child: number) => {
+                    newParent.children.push(child);
+                });
+            }
+
+            //Add new nodes coming in to the state space.
+            payloadNodes.forEach((node : INewNode) => {
+                // Set the selection state for the new nodes based on the 
+                // selection state of the parent (default is Unselected)
+                if (newParent.selectionState === SelectionState.Selected) {
+                    node.selectionState = SelectionState.Selected;
+                }
+
+                nodes[node.id] = node;
+            });
+
+            //Add new children coming in to the parent node.
+            payloadNodes.forEach((node : INewNode) => {
+                if (newParent.children === undefined) {
+                    newParent.children = [];
+                }
+                newParent.children.push(node.id);
+            });
+            //And overwrite the old parent node
+            nodes[payloadNodes[0].parent] = newParent;
+
+            return nodes;
         case CHILDREN_REQUESTED:
             console.error('Make a spinner or something');
             return nodes;
         case EXPAND_BUTTON_WAS_CLICKED:
-            const { id } = action.payload;
-            return nodes.map((node: INode) => {
-                if (id === node.id) {
-                    return Object.assign({}, node, {isexpanded: true});
-                } else {
-                    return node;
-                }
-            });
+            const expandID = action.payload.id;
+
+            nodes[expandID] = Object.assign({}, nodes[expandID], {isexpanded: true});
+
+            return nodes;
+        case SELECTION_WAS_CLICKED:
+            const selectionID = action.payload.id;
+            const selectedNode = nodes[selectionID];
+
+            //First, determine our own new state and set it
+            let newTargetState = SelectionState.Unselected;
+            if (selectedNode.selectionState === SelectionState.Unselected) {
+                newTargetState = SelectionState.Selected;
+            }
+            nodes[selectionID] = Object.assign({}, nodes[selectionID], {selectionState: newTargetState});
+
+            //Update parent recursively
+            recursiveUpdateSelectionStateUp(selectionID);
+
+            //Update children recursively
+            recursiveUpdateSelectionStateDown(selectionID, newTargetState);
+
+            return nodes;
         default: {
             return nodes;
         }
