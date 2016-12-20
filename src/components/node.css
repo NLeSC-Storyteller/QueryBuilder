@@ -1,21 +1,22 @@
-.bullet {
-    background-color: transparent;
-    float: left;
-    width: 10px;
+.category {
+  background: #ffffff;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.4),0 3px 1px -2px rgba(0,0,0,.4),0 1px 5px 0 rgba(0,0,0,.4);  
 }
 
-.content {
-    margin-left: 10px;
-    width: 200px;
+.categoryTitleBar {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }
 
-.entity {
-    font-weight: bold;
-    padding-bottom: 3px;
-    padding-top: 3px;
+.categoryText {
+
 }
 
-.instance {
-    padding-bottom: 3px;
-    padding-top: 3px;
+.mdl-button {
+    width: 100%;
+}
+
+.allSelector {
+  width: 100px;
 }

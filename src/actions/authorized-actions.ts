@@ -1,10 +1,24 @@
-import { INode } from '../interfaces';
+import { INode } from '../components/Node';
+
+export const ROOT_RECEIVED = 'ROOT_RECEIVED';
+export interface IRootReceivedAction {
+    type: 'ROOT_RECEIVED';
+    payload: {
+        root: INode
+    };
+}
+
+export const ROOT_REQUESTED = 'ROOT_REQUESTED';
+export interface IRootRequestedAction {
+    type: 'ROOT_REQUESTED';
+    payload: {};
+}
 
 export const CHILDREN_RECEIVED = 'CHILDREN_RECEIVED';
 export interface IChildrenReceivedAction {
     type: 'CHILDREN_RECEIVED';
     payload: {
-        nodes: INode[]
+        nodes: any
     };
 }
 
@@ -12,7 +26,6 @@ export const CHILDREN_REQUESTED = 'CHILDREN_REQUESTED';
 export interface IChildrenRequestedAction {
     type: 'CHILDREN_REQUESTED';
     payload: {
-        id: number
     };
 }
 
@@ -24,8 +37,10 @@ export interface IExpandButtonWasClickedAction {
     };
 }
 
-export enum AuthorizedActionEnum {
-    IChildrenReceivedAction,
-    IChildrenRequestedAction,
-    IExpandButtonWasClickedAction
+export const SELECTION_WAS_CLICKED = 'SELECTION_WAS_CLICKED';
+export interface ISelectionWasClickedAction {
+    type: 'SELECTION_WAS_CLICKED';
+    payload: {
+        id: number
+    };
 }

@@ -1,6 +1,5 @@
-import { CHILDREN_RECEIVED }  from './authorized-actions';
-
-import { INode }              from '../interfaces';
+import { INode }                from '../components/Node';
+import { CHILDREN_RECEIVED }    from './authorized-actions';
 
 export const childrenReceived = (nodes: INode[]) => {
     return {
