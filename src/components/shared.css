@@ -1,0 +1,11 @@
+.impossible_query {
+  color: darkred;
+}
+
+.heavy_query {
+  color: orange;
+}
+
+.safe_query {
+  color:mediumseagreen;
+}

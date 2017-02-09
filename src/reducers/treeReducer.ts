@@ -1,9 +1,11 @@
 import { CHILDREN_RECEIVED }                  from '../actions';
 import { CHILDREN_REQUESTED }                 from '../actions';
+import { CLEAR_QUERY_WAS_CLICKED }            from '../actions';
 import { COLLAPSE_FOLDER_WAS_CLICKED }        from '../actions';
 import { EXPAND_FOLDER_WAS_CLICKED }          from '../actions';
 import { TOGGLE_FILE_SELECTED_WAS_CLICKED }   from '../actions';
 import { TOGGLE_FOLDER_SELECTED_WAS_CLICKED } from '../actions';
+import { TEXT_SEARCH_RESULT_RECEIVED }        from '../actions';
 
 import { Node }                               from '../types';
 import { Nodes }                              from '../types';
@@ -21,15 +23,14 @@ const initstate: Nodes = {
         expanded:    false,
         highlighted: false,
         isfile:      false,
+        mentioncount: 0,
         name:        'root',
         parent:      undefined,
         selected:    Selected.None
     }
 };
 
-export const treeReducer = (nodes: Nodes = initstate, action: GenericCollectionAction) => {
-
-    console.log(new Date().toISOString().slice(11, 19), action.type);
+export const treeReducer = (nodes: Nodes = initstate, action: GenericCollectionAction, textSearchState: any) => {
 
     if (action.type === CHILDREN_RECEIVED) {
         const payloadChildren = action.payload.nodes;
@@ -59,6 +60,12 @@ export const treeReducer = (nodes: Nodes = initstate, action: GenericCollectionA
         // nodes, using the dbid of the payloadNode as the key.
         payloadChildren.forEach((payloadChild: Node) => {
             newNodes[payloadChild.dbid] = payloadChild;
+
+            // By default not highlighted, so we only have to set the highlighted state if needed   
+            const highlightedIDs = textSearchState.textSearchResults[action.collection];
+            if ( highlightedIDs && highlightedIDs.indexOf(payloadChild.dbid) >= 0) {
+                newNodes[payloadChild.dbid] = Object.assign({}, newNodes[payloadChild.dbid], {highlighted: true});
+            }
         });
 
         const { selected } = nodes[dbidParent];
@@ -93,9 +100,32 @@ export const treeReducer = (nodes: Nodes = initstate, action: GenericCollectionA
         nodes = applySelectionStateDownward(nodes, dbid, change.selected);
         nodes = propagateSelectionStateUpward(nodes, dbid);
         return nodes;
+    } else if (action.type === CLEAR_QUERY_WAS_CLICKED) {
+
+        const change = { selected: Selected.None };
+        nodes = deepCopyWithChange(nodes, -1, change);
+        nodes = applySelectionStateDownward(nodes, -1, change.selected);
+        return nodes;
+    } else if (action.type === TEXT_SEARCH_RESULT_RECEIVED) {
+
+        const { dbIDs } = action.payload;
+        const newNodes = Object.assign({}, nodes);
+
+        Object.keys(nodes).forEach((key: any) => {
+            const node = nodes[key];
+            newNodes[key] = Object.assign({}, node, {highlighted: false});
+        });
+
+        dbIDs.forEach((dbid: number) => {
+            const node = nodes[dbid];
+            if (node !== undefined) {
+                newNodes[dbid] = Object.assign({}, node, {highlighted: true});
+            }
+        });
+
+        return newNodes;
 
     } else {
         return nodes;
-
     }
 };

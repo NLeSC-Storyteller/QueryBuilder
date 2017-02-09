@@ -1,17 +1,15 @@
 import * as React          from 'react';
 import { Cell, Grid }      from 'react-mdl';
-import { Checkbox }        from 'react-mdl';
 
-import { FolderContents }  from '../components';
-import { Selected }        from '../types';
-import { nodeHasChildren } from '../utils';
+import TristateCheckbox    from '../tristateCheckbox/TristateCheckbox';
+
+import { FolderContents }  from '../';
+import { Selected }        from '../../types';
+import { nodeHasChildren } from '../../utils';
 
 import './Folder.css';
 
 export class Folder extends React.Component<any, any> {
-
-    public expanded: boolean;
-
     constructor() {
         super();
         this.onClickCheckbox = this.onClickCheckbox.bind(this);
@@ -50,20 +48,19 @@ export class Folder extends React.Component<any, any> {
 
     render(): JSX.Element {
 
-        const { name, expanded, selected } = this.props.nodes[this.props.dbid];
+        const { name, expanded, selected, highlighted } = this.props.nodes[this.props.dbid];
         const checked = selected === Selected.All;
+        const indeterminate = selected === Selected.Partial;
         return (
-            <div>
-                <Grid className={'mdl-cell--12-col category'}>
-                    <Cell col={12} className="categoryTitleBar">
-                        <Checkbox onChange={this.onClickCheckbox} checked={checked}/>
-                        <span className="categoryText" onClick={this.onClickFolder} >
-                            {name}
-                        </span>
-                        {this.renderFolderContents(expanded)}
-                    </Cell>
-                </Grid>
-            </div>
+            <Grid className={highlighted ? 'mdl-cell mdl-cell--12-col category highlighted' : 'mdl-cell mdl-cell--12-col category'}>
+                <Cell col={12} className="categoryTitleBar">
+                    <TristateCheckbox onChange={this.onClickCheckbox} checked={checked} indeterminate={indeterminate}/>
+                    <span className="categoryText" onClick={this.onClickFolder} >
+                        {name}
+                    </span>
+                </Cell>
+                {this.renderFolderContents(expanded)}
+            </Grid>
         );
     }
 }

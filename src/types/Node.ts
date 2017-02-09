@@ -6,6 +6,7 @@ export type Node = {
     expanded:    boolean;
     highlighted: boolean
     isfile:      boolean;
+    mentioncount: number;
     name:        string;
     parent:      number | undefined;
     selected:    Selected;

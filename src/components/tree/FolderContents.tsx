@@ -1,8 +1,8 @@
 import * as React          from 'react';
 
-import { Folder }          from '../components';
-import { File }            from '../components';
-import { nodeHasChildren } from '../utils';
+import { Folder }          from '../';
+import { File }            from '../';
+import { nodeHasChildren } from '../../utils';
 
 export class FolderContents extends React.Component<any, any> {
     constructor() {

@@ -2,13 +2,14 @@ import * as React                         from 'react';
 import { connect }                        from 'react-redux';
 import { Dispatch }                       from 'react-redux';
 
-import { childrenRequestedThunk }         from '../actions';
-import { collapseFolderWasClicked }       from '../actions';
-import { expandFolderWasClicked }         from '../actions';
-import { toggleFileSelectedWasClicked }   from '../actions';
-import { toggleFolderSelectedWasClicked } from '../actions';
-import { FolderContents }                 from '../components';
-import { GenericCollectionAction }        from '../types';
+import { FolderContents }                 from '../';
+import { buildQueryIsNeeded }             from '../../actions';
+import { childrenRequestedThunk }         from '../../actions';
+import { collapseFolderWasClicked }       from '../../actions';
+import { expandFolderWasClicked }         from '../../actions';
+import { toggleFileSelectedWasClicked }   from '../../actions';
+import { toggleFolderSelectedWasClicked } from '../../actions';
+import { GenericCollectionAction }        from '../../types';
 
 export class UnconnectedTree extends React.Component<any, any> {
 
@@ -58,10 +59,12 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericCollectionAction>, ownProp
 
     const onClickFile = (dbid: number) => {
         dispatch(toggleFileSelectedWasClicked(collection, dbid));
+        dispatch(buildQueryIsNeeded());
     };
 
     const onClickCheckbox = (dbid: number) => {
         dispatch(toggleFolderSelectedWasClicked(collection, dbid));
+        dispatch(buildQueryIsNeeded());
     };
 
     return {

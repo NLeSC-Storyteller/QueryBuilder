@@ -1,12 +1,12 @@
 import { Dispatch }                from 'redux';
 
-import { childrenReceived }        from '../actions';
-import { childrenRequested }       from '../actions';
-import { expandFolderWasClicked }  from '../actions';
-import { baseurl }                 from '../config';
-import { GenericCollectionAction } from '../types';
-import { DatabaseRecord }          from '../types';
-import { Selected }                from '../types';
+import { childrenReceived }        from '../';
+import { childrenRequested }       from '../';
+import { expandFolderWasClicked }  from '../';
+import { baseurl }                 from '../../config';
+import { GenericCollectionAction } from '../../types';
+import { DatabaseRecord }          from '../../types';
+import { Selected }                from '../../types';
 
 export const childrenRequestedThunk = (collection: string, dbid: number) => {
     return (dispatch: Dispatch<GenericCollectionAction>) => {
@@ -22,14 +22,15 @@ export const childrenRequestedThunk = (collection: string, dbid: number) => {
         const handleTheData = (dbrecords: any) => {
             const convert = (dbrecord: DatabaseRecord) => {
                 return {
-                    children:    undefined,
-                    dbid:        dbrecord.id,
-                    expanded:    false,
-                    isfile:      dbrecord.isinstance === 1 ? true : false,
-                    highlighted: false,
-                    name:        dbrecord.name,
-                    parent:      dbrecord.childof,
-                    selected:    Selected.None
+                    children:     undefined,
+                    dbid:         dbrecord.id,
+                    expanded:     false,
+                    isfile:       dbrecord.isinstance === 1 ? true : false,
+                    mentioncount: dbrecord.mentioncount,
+                    highlighted:  false,
+                    name:         dbrecord.name,
+                    parent:       dbrecord.childof,
+                    selected:     Selected.None
                 };
             };
 
