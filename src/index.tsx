@@ -1,19 +1,29 @@
-import '../node_modules/react-mdl/extra/material.css';
-import '../node_modules/react-mdl/extra/material.js';
-import './index.css';
+import * as React           from 'react';
+import * as ReactDOM        from 'react-dom';
+import { Cell, Grid }       from 'react-mdl';
+import { Provider }         from 'react-redux';
 
-import * as React       from 'react';
-import * as ReactDOM    from 'react-dom';
-import { Provider }     from 'react-redux';
+import { MentionCounter }   from './components';
+import { QueryBuildButton } from './components';
+import { QueryClearButton } from './components';
+import { Searchbox }        from './components';
+import { Tree }             from './components';
+import { collections }      from './config';
+import { store }            from './store';
 
-import { Node }         from './components';
-import { MentionCounter, QueryBuildButton, QueryClearButton, Searchbox } from './components';
-import { store }        from './store';
+const colwidth = Math.ceil(12 / collections.length);
 
-import { Cell, Grid }   from 'react-mdl';
+const trees = collections.map((collection: string, indexOf: number) => {
+    return (
+        <Cell key={indexOf} col={colwidth} className="categoryTitleBar mdl-grid">
+            <Cell col={12} ><h1>{collection}</h1></Cell>
+            <Cell col={12} ><Tree collection={collection}/></Cell>
+        </Cell>
+        );
+});
 
 ReactDOM.render(
-    <Provider store={ store }>
+    <Provider store={store} >
         <div>
             <Grid>
                 <Cell col={ 3 }>
@@ -30,22 +40,7 @@ ReactDOM.render(
                 </Cell>
             </Grid>
             <Grid>
-                <Cell col={ 3 }>
-                    Entities
-                    <Node key={ 1 } table={ 'entities' } nodeID={ 1 } />
-                </Cell>
-                <Cell col={ 3 }>
-                    Events
-                    <Node key={ 1 } table={ 'events' } nodeID={ 1 } />
-                </Cell>
-                <Cell col={ 3 }>
-                    Sources
-                    <Node key={ 1 } table={ 'sources' } nodeID={ 1 } />
-                </Cell>
-                <Cell col={ 3 }>
-                    Topics
-                    <Node key={ 1 } table={ 'topics' } nodeID={ 1 } />
-                </Cell>
+                {trees}
             </Grid>
         </div>
     </Provider>,

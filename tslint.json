@@ -18,6 +18,7 @@
         "max-func-body-length": false,
         "react-a11y-event-has-role": false,
         "react-this-binding-issue": true,
-        "restrict-plus-operands": false
+        "restrict-plus-operands": false,
+        "react-tsx-curly-spacing": false
     }
 }

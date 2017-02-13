@@ -1,120 +1,21 @@
-import { INode } from '../components/Node';
-
-export const ROOT_REQUESTED = 'ROOT_REQUESTED';
-export interface IRootRequestedAction {
-    type: 'ROOT_REQUESTED';
-    payload: {
-        table: string
-    };
-}
-
-export const ROOT_RECEIVED = 'ROOT_RECEIVED';
-export interface IRootReceivedAction {
-    type: 'ROOT_RECEIVED';
-    payload: {
-        table: string,
-        root: INode
-    };
-}
-
-export const CHILDREN_REQUESTED = 'CHILDREN_REQUESTED';
-export interface IChildrenRequestedAction {
-    type: 'CHILDREN_REQUESTED';
-    payload: {
-        table: string
-    };
-}
-
+// Tree related
 export const CHILDREN_RECEIVED = 'CHILDREN_RECEIVED';
-export interface IChildrenReceivedAction {
-    type: 'CHILDREN_RECEIVED';
-    payload: {
-        table: string,
-        nodes: any
-    };
-}
+export const CHILDREN_REQUESTED = 'CHILDREN_REQUESTED';
+export const COLLAPSE_FOLDER_WAS_CLICKED = 'COLLAPSE_FOLDER_WAS_CLICKED';
+export const EXPAND_FOLDER_WAS_CLICKED = 'EXPAND_FOLDER_WAS_CLICKED';
+export const TOGGLE_FILE_SELECTED_WAS_CLICKED = 'TOGGLE_FILE_SELECTED_WAS_CLICKED';
+export const TOGGLE_FOLDER_SELECTED_WAS_CLICKED = 'TOGGLE_FOLDER_SELECTED_WAS_CLICKED';
 
-export const EXPAND_BUTTON_WAS_CLICKED = 'EXPAND_BUTTON_WAS_CLICKED';
-export interface IExpandButtonWasClickedAction {
-    type: 'EXPAND_BUTTON_WAS_CLICKED';
-    payload: {
-        table: string,
-        id: number
-    };
-}
-
-export const SELECTION_WAS_CLICKED = 'SELECTION_WAS_CLICKED';
-export interface ISelectionWasClickedAction {
-    type: 'SELECTION_WAS_CLICKED';
-    payload: {
-        table: string,
-        id: number
-    };
-}
-
-export const CLEAR_QUERY = 'CLEAR_QUERY';
-export interface IClearQueryAction {
-    type: 'CLEAR_QUERY';
-    payload: {
-    };
-}
-
-export const BUILD_QUERY = 'BUILD_QUERY';
-export interface IBuildQueryAction {
-    type: 'BUILD_QUERY';
-    payload: {
-    };
-}
-
-export const STORE_QUERY = 'STORE_QUERY';
-export interface IStoreQueryAction {
-    type: 'STORE_QUERY';
-    payload: {
-    };
-}
-
+// Query related
+export const CLEAR_QUERY_WAS_CLICKED = 'CLEAR_QUERY_WAS_CLICKED';
+export const INITIATE_BUILD_QUERY = 'INITIATE_BUILD_QUERY';
+export const STORE_QUERY_WAS_CLICKED = 'STORE_QUERY_WAS_CLICKED';
 export const OPEN_BUILD_QUERY_DIALOG = 'OPEN_BUILD_QUERY_DIALOG';
-export interface IStoreOpenBuildQueryDialogAction {
-    type: 'OPEN_BUILD_QUERY_DIALOG';
-    payload: {
-    };
-}
-
 export const CLOSE_BUILD_QUERY_DIALOG = 'CLOSE_BUILD_QUERY_DIALOG';
-export interface IStoreCloseBuildQueryDialogAction {
-    type: 'CLOSE_BUILD_QUERY_DIALOG';
-    payload: {
-    };
-}
-
 export const OPEN_CLEAR_QUERY_DIALOG = 'OPEN_CLEAR_QUERY_DIALOG';
-export interface IStoreOpenClearQueryDialogAction {
-    type: 'OPEN_CLEAR_QUERY_DIALOG';
-    payload: {
-    };
-}
-
 export const CLOSE_CLEAR_QUERY_DIALOG = 'CLOSE_CLEAR_QUERY_DIALOG';
-export interface IStoreCloseClearQueryDialogAction {
-    type: 'CLOSE_CLEAR_QUERY_DIALOG';
-    payload: {
-    };
-}
+export const QUERY_TEXT_CHANGED = 'QUERY_TEXT_CHANGED';
 
-export const TEXT_SEARCH = 'TEXT_SEARCH';
-export interface ITextSearchAction {
-    type: 'TEXT_SEARCH';
-    payload: {
-        table: string,
-        input: string
-    };
-}
-
+// Searchbox related
+export const TEXT_SEARCH_INPUT_CHANGED = 'TEXT_SEARCH_INPUT_CHANGED';
 export const TEXT_SEARCH_RESULT_RECEIVED = 'TEXT_SEARCH_RESULT_RECEIVED';
-export interface ITextSearchResultReceivedAction {
-    type: 'TEXT_SEARCH_RESULT_RECEIVED';
-    payload: {
-        table: string,
-        nodes: number[]
-    };
-}

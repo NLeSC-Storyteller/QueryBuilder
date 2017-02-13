@@ -1,19 +1,20 @@
-import { applyMiddleware }      from 'redux';
-import { createStore }          from 'redux';
-import thunk                    from 'redux-thunk';
+import { applyMiddleware }         from 'redux';
+import { createStore }             from 'redux';
+import thunk                       from 'redux-thunk';
 
-import { allreducers }          from './reducers';
+import { childrenRequestedThunk }  from './actions';
+import { collections }             from './config';
+import { combinedReducer }         from './reducers';
 
-import { rootRequestedThunk }   from './actions';
-
-export const store = createStore(allreducers, applyMiddleware(thunk));
+export const store = createStore(combinedReducer, applyMiddleware(thunk));
 
 // whenever the store has changed, print the new state
 store.subscribe(() => {
     console.log(store.getState());
 });
 
-store.dispatch(rootRequestedThunk('entities'));
-store.dispatch(rootRequestedThunk('events'));
-store.dispatch(rootRequestedThunk('sources'));
-store.dispatch(rootRequestedThunk('topics'));
+const dbidRoot = -1;
+
+collections.map((collection: string) => {
+    store.dispatch(childrenRequestedThunk(collection, dbidRoot));
+});

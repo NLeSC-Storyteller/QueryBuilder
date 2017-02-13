@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": false,
   "devDependencies": {
-    "@nlesc/react-scripts": "^0.1.2",
+    "@nlesc/react-scripts": "0.1.2",
     "@types/react": "^0.14.50",
     "@types/react-dom": "^0.14.19",
     "@types/react-mdl": "^1.7.18",

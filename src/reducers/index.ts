@@ -1,3 +1,5 @@
-export { nodesReducerFactory } from './nodesReducerFactory';
+export { collectionBasedTreeReducerGenerator } from './collectionBasedTreeReducerGenerator';
+export { combinedReducer } from './combinedReducer';
 export { queryReducer } from './queryReducer';
-export { allreducers }  from './allreducers';
+export { treeReducer } from './treeReducer';
+export { textSearchReducer } from './textSearchReducer';
