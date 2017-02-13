@@ -16,8 +16,10 @@ const colwidth = Math.ceil(12 / collections.length);
 const trees = collections.map((collection: string, indexOf: number) => {
     return (
         <Cell key={indexOf} col={colwidth} className="categoryTitleBar mdl-grid">
-            <Cell col={12} ><h1>{collection}</h1></Cell>
-            <Cell col={12} ><Tree collection={collection}/></Cell>
+            <Cell col={12} >
+                <h1>{collection}</h1>
+                <Tree collection={collection}/>
+            </Cell>
         </Cell>
         );
 });
