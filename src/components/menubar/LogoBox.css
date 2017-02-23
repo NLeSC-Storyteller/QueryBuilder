@@ -1,17 +1,13 @@
-.logo-nlesc {
-    background-repeat: no-repeat;
-    width: auto; /*or your image's width*/
-    height: auto; /*or your image's height*/
+.logo-nlesc {    
+    width: 200px;
+    height: auto;
     margin: 0;
-    padding: 0;
-    background-image: url('../../../images/NLESClogo.png');
+    padding: 0;    
 }
 
-.logo-vu {
-    background-repeat: no-repeat;
-    width: auto; /*or your image's width*/
-    height: auto; /*or your image's height*/
-    margin: 0;
-    padding: 0;
-    background-image: url('../../../images/VUlogo.png');
+.logo-vu {    
+    width: 200px;
+    height: auto;
+    margin: -40px;
+    padding: 0;    
 }
