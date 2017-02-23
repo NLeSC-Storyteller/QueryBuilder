@@ -7,6 +7,7 @@ import { CLOSE_BUILD_QUERY_DIALOG }     from '../actions';
 import { CLOSE_CLEAR_QUERY_DIALOG }     from '../actions';
 import { QUERY_TEXT_CHANGED }           from '../actions';
 
+import { collections }    from '../config';
 import { GenericAction }  from '../types';
 import { Node }           from '../types';
 import { Selected }       from '../types';
@@ -40,27 +41,22 @@ function aggregateSelected(nodes : any, node: Node) : Node[] {
 }
 
 function countMentions(state: any) : number {
-    let entitiesCount : number = 0;
-    let eventsCount : number = 0;
-    let sourcesCount : number = 0;
-    let topicsCount : number = 0;
-    state.entities.forEach((entity: any) => {
-        entitiesCount += entity.mentioncount;
-    });
-    state.events.forEach((event: any) => {
-        eventsCount += event.mentioncount;
-    });
-    state.sources.forEach((source: any) => {
-        sourcesCount += source.mentioncount;
-    });
-    state.topics.forEach((topic: any) => {
-        topicsCount += topic.mentioncount;
+    const counts: number[] = [0];
+
+    collections.forEach((collection: string) => {
+        if (state[collection].length > 0) {
+            let temp = 0;
+            state[collection].forEach((thing: any) => {
+                temp += thing.mentioncount;
+            });
+            counts.push(temp);
+        }
     });
 
-    const min = [entitiesCount, eventsCount, sourcesCount, topicsCount].filter((x) => { return x !== 0; })
-    .reduce((a, b) => { return Math.min(a, b); }, Infinity);
+    const min = counts.filter((x: any) => { return x !== 0; })
+        .reduce((a: any, b: any) => { return Math.min(a, b); }, Infinity);
 
-    const max = Math.max(entitiesCount, eventsCount, sourcesCount, topicsCount);
+    const max = counts.reduce((a: any, b: any) => { return Math.max(a, b); }, -Infinity);
 
     if (min < max) {
         return -min;
@@ -71,9 +67,24 @@ function countMentions(state: any) : number {
 
 function createQueryString(state: any) : string {
     let result : string = '';
-    if (state.entities && state.entities.length > 0) {
+
+    if (state.lightentities && state.lightentities.length > 0) {
         result += ' --entityPhrase ';
-        state.entities.forEach((entity: any) => {
+        state.lightentities.forEach((entity: any) => {
+            result += entity.name + ';';
+        });
+    }
+
+    if (state.darkentities && state.darkentities.length > 0) {
+        result += ' --entityPhrase ';
+        state.darkentities.forEach((entity: any) => {
+            result += entity.name + ';';
+        });
+    }
+
+    if (state.concepts && state.concepts.length > 0) {
+        result += ' --entityPhrase ';
+        state.concepts.forEach((entity: any) => {
             result += entity.name + ';';
         });
     }
@@ -85,10 +96,17 @@ function createQueryString(state: any) : string {
         });
     }
 
-    if (state.sources && state.sources.length > 0) {
+    if (state.authors && state.authors.length > 0) {
         result += ' --authorPhrase ';
-        state.sources.forEach((source: any) => {
-            result += source.name + ';';
+        state.authors.forEach((author: any) => {
+            result += author.name + ';';
+        });
+    }
+
+    if (state.cited && state.cited.length > 0) {
+        result += ' --authorPhrase ';
+        state.cited.forEach((cited: any) => {
+            result += cited.name + ';';
         });
     }
 
@@ -107,21 +125,9 @@ export const queryReducer = (state: any = initstate, action: GenericAction) => {
     } else if (action.type === INITIATE_BUILD_QUERY) {
         const newquery = Object.assign({}, state.query);
 
-        if (state.entities[1]) {
-            newquery.entities = aggregateSelected(state.entities, state.entities[-1]);
-        }
-
-        if (state.events[1]) {
-            newquery.events = aggregateSelected(state.events, state.events[-1]);
-        }
-
-        if (state.sources[1]) {
-            newquery.sources = aggregateSelected(state.sources, state.sources[-1]);
-        }
-
-        if (state.entities[1]) {
-            newquery.topics = aggregateSelected(state.topics, state.topics[-1]);
-        }
+        collections.forEach((collection: string) => {
+            newquery[collection] = aggregateSelected(state[collection], state[collection][-1]);
+        });
 
         newquery.selectedMentionCount = countMentions(newquery);
         newquery.queryString = createQueryString(newquery);

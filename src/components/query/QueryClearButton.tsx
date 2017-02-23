@@ -4,7 +4,8 @@ import { connect }                  from 'react-redux';
 import { Dispatch }                 from 'redux';
 
 import { openClearQueryDialog }     from '../../actions';
-import { GenericAction }           from '../../types';
+import { collections }              from '../../config';
+import { GenericAction }            from '../../types';
 
 import { QueryClearDialog }         from './QueryClearDialog';
 
@@ -29,13 +30,13 @@ export class UnconnectedQueryClearButton extends React.Component<IQueryClearButt
     }
 
     static shouldButtonBeActive(state: any): boolean {
-        if ((state.query.entities  && state.query.entities.length > 0) ||
-            (state.query.events    && state.query.events.length > 0) ||
-            (state.query.sources   && state.query.sources.length > 0) ||
-            (state.query.topics    && state.query.topics.length > 0)) {
-            return true;
-        }
-        return false;
+        let anySelection = false;
+        collections.forEach((collection: string) => {
+            if (state.query[collection] && state.query[collection].length > 0) {
+                anySelection = true;
+            }
+        });
+        return anySelection;
     }
 
     static mapStateToProps(state: any) {
@@ -59,7 +60,12 @@ export class UnconnectedQueryClearButton extends React.Component<IQueryClearButt
     render() {
         return (
             <div>
-                <Button raised disabled={ !this.props.buttonActive } accent onClick={ this.onClick }>
+                <Button
+                    raised
+                    className={ 'clear-query-button' }
+                    disabled={ !this.props.buttonActive }
+                    onClick={ this.onClick }
+                >
                     Clear Query
                 </Button>
                 <QueryClearDialog />

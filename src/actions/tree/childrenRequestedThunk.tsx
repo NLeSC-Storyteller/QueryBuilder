@@ -40,7 +40,20 @@ export const childrenRequestedThunk = (collection: string, dbid: number) => {
         };
 
         const handleAnyErrors = (err: Error) => {
-            throw new Error('Errors occured. ' + err.message + err.stack);
+            console.error('Errors occured. ' + err.message + err.stack);
+
+            const fauxRoot = {
+                    children:     undefined,
+                    dbid:         0,
+                    expanded:     false,
+                    isfile:       true,
+                    mentioncount: 0,
+                    highlighted:  false,
+                    name:         'empty',
+                    parent:       -1,
+                    selected:     Selected.None
+                };
+            dispatch(childrenReceived(collection, [fauxRoot]));
         };
 
         dispatch(childrenRequested(collection, dbid));

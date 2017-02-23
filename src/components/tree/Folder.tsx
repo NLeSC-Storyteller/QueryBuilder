@@ -7,7 +7,7 @@ import { FolderContents }  from '../';
 import { Selected }        from '../../types';
 import { nodeHasChildren } from '../../utils';
 
-import './Folder.css';
+import './Tree.css';
 
 export class Folder extends React.Component<any, any> {
     constructor() {
@@ -51,9 +51,11 @@ export class Folder extends React.Component<any, any> {
         const { name, expanded, selected, highlighted } = this.props.nodes[this.props.dbid];
         const checked = selected === Selected.All;
         const indeterminate = selected === Selected.Partial;
+        const className = 'mdl-cell mdl-cell--12-col nomargin category';
+        const highlightedClass = className + ' highlighted';
         return (
-            <Grid className={highlighted ? 'mdl-cell mdl-cell--12-col category highlighted' : 'mdl-cell mdl-cell--12-col category'}>
-                <Cell col={12} className="categoryTitleBar">
+            <Grid className={highlighted ? highlightedClass : className}>
+                <Cell col={12} className="categoryTitleBar nomargin">
                     <TristateCheckbox onChange={this.onClickCheckbox} checked={checked} indeterminate={indeterminate}/>
                     <span className="categoryText" onClick={this.onClickFolder} >
                         {name}

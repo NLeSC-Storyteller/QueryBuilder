@@ -1,31 +1,31 @@
-import * as React from 'react';
+import * as React                   from 'react';
 
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { connect }                  from 'react-redux';
+import { Dispatch }                 from 'redux';
 
-import { storeQueryThunk } from '../../actions';
-import { closeBuildQueryDialog } from '../../actions';
-import { queryTextChanged } from '../../actions';
-import { GenericAction } from '../../types';
+import { storeQueryThunk }          from '../../actions';
+import { closeBuildQueryDialog }    from '../../actions';
+import { queryTextChanged }         from '../../actions';
+import { GenericAction }            from '../../types';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Textfield } from 'react-mdl';
 
 import '../shared.css';
 import './QueryDialogs.css';
 
-interface IQueryBuildDialogDispatchProps {
+interface IQueryManagementDialogDispatchProps {
     storeQuery: (username: string, query: string) => void;
     closeDialog: () => void;
-    changeQueryText: (newtext: string) => void;
+    changeQueryText: (newtext : string) => void;
 }
 
-export interface IQueryBuildDialog {
+export interface IQueryManagementDialog {
     query: any;
     dialogOpen: boolean;
     daemonStatus: number;
 }
 
-export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDialog & IQueryBuildDialogDispatchProps, {}> {
+export class UnconnectedQueryManagementDialog extends React.Component<IQueryManagementDialog & IQueryManagementDialogDispatchProps, {}> {
     constructor() {
         super();
 
@@ -37,7 +37,7 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
     static mapStateToProps(state: any) { //state: IStore) {
         return {
             query: state.query,
-            dialogOpen: state.query.isQueryBuildDialogOpen,
+            dialogOpen: state.query.isQueryManagementDialogOpen,
             daemonStatus: state.query.daemonStatus
         };
     }
@@ -50,7 +50,7 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
             closeDialog: () => {
                 dispatch(closeBuildQueryDialog());
             },
-            changeQueryText: (newtext: string) => {
+            changeQueryText: (newtext : string) => {
                 dispatch(queryTextChanged(newtext));
             }
         };
@@ -60,14 +60,14 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
         const username = 'defaultuser';
         const query = this.props.query.queryString;
         this.props.storeQuery(username, query);
-        // this.props.closeDialog();
+        this.props.closeDialog();
     }
 
     public handleCloseDialog() {
         this.props.closeDialog();
     }
 
-    public handleTextChange(event: any) {
+    public handleTextChange(event : any) {
         this.props.changeQueryText(event.target.value);
     }
 
@@ -118,7 +118,7 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
                     <div>
                         Number of mentions selected:
                         <span className={mentionClass}>
-                            {count < 0 ? ' < ' + -count : ' ' + count}
+                          {count < 0 ? ' < ' + -count : ' ' + count}
                         </span>
                     </div>
                     <br />
@@ -145,5 +145,5 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
 }
 
 // Export just the connected component
-export const QueryBuildDialog = connect(UnconnectedQueryBuildDialog.mapStateToProps,
-                                        UnconnectedQueryBuildDialog.mapDispatchToProps)(UnconnectedQueryBuildDialog);
+export const QueryManagementDialog = connect(UnconnectedQueryManagementDialog.mapStateToProps,
+                                             UnconnectedQueryManagementDialog.mapDispatchToProps)(UnconnectedQueryManagementDialog);

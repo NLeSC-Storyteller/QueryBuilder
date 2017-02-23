@@ -5,6 +5,7 @@ import { Dispatch }                 from 'redux';
 
 import { buildQueryIsNeeded }       from '../../actions';
 import { openBuildQueryDialog }     from '../../actions';
+import { collections }              from '../../config';
 import { GenericAction }            from '../../types';
 
 // import { getDaemonStatusThunk }     from '../../actions';
@@ -36,13 +37,13 @@ export class UnconnectedQueryBuildButton extends React.Component<IQueryBuildButt
     }
 
     static shouldButtonBeActive(state: any): boolean {
-        if ((state.query.entities  && state.query.entities.length > 0) ||
-            (state.query.events    && state.query.events.length > 0) ||
-            (state.query.sources   && state.query.sources.length > 0) ||
-            (state.query.topics    && state.query.topics.length > 0)) {
-            return true;
-        }
-        return false;
+        let anySelection = false;
+        collections.forEach((collection: string) => {
+            if (state.query[collection] && state.query[collection].length > 0) {
+                anySelection = true;
+            }
+        });
+        return anySelection;
     }
 
     static mapStateToProps(state: any) {
@@ -74,7 +75,12 @@ export class UnconnectedQueryBuildButton extends React.Component<IQueryBuildButt
     render() {
         return (
             <div>
-                <Button raised disabled={ !this.props.buttonActive } colored onClick={ this.onClick }>
+                <Button
+                    raised
+                    className={ 'build-query-button' }
+                    disabled={ !this.props.buttonActive }
+                    onClick={ this.onClick }
+                >
                     Build Query
                 </Button>
                 <QueryBuildDialog />

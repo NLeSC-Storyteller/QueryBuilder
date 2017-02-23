@@ -6,7 +6,7 @@ import { Selected }        from '../../types';
 import '../../../node_modules/react-mdl/extra/material.css';
 import '../../../node_modules/react-mdl/extra/material.js';
 
-import './File.css';
+import './Tree.css';
 
 export class File extends React.Component<any, any> {
     constructor() {
@@ -19,12 +19,17 @@ export class File extends React.Component<any, any> {
     }
 
     render(): JSX.Element {
-
         const { name, highlighted, selected } = this.props.nodes[this.props.dbid];
         const accent = selected === Selected.All;
 
         return (
-            <Button onClick={this.onClickFile} raised colored={highlighted} accent={accent}>
+            <Button
+                className={'mdl-button nomargin'}
+                onClick={this.onClickFile}
+                raised
+                colored={highlighted}
+                accent={accent}
+            >
                 {name}
             </Button>
         );

@@ -11,6 +11,8 @@ import { toggleFileSelectedWasClicked }   from '../../actions';
 import { toggleFolderSelectedWasClicked } from '../../actions';
 import { GenericCollectionAction }        from '../../types';
 
+import './Tree.css';
+
 export class UnconnectedTree extends React.Component<any, any> {
 
     constructor() {

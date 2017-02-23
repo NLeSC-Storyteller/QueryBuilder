@@ -4,6 +4,8 @@ import { Folder }          from '../';
 import { File }            from '../';
 import { nodeHasChildren } from '../../utils';
 
+import './Tree.css';
+
 export class FolderContents extends React.Component<any, any> {
     constructor() {
         super();
@@ -43,7 +45,7 @@ export class FolderContents extends React.Component<any, any> {
         }
 
         return (
-            <div>
+            <div className={'mdl-grid nomargin mdl-cell mdl-cell--12-col'}>
                 {children}
             </div>
         );

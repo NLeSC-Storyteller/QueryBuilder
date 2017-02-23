@@ -9,7 +9,7 @@ import { GenericAction }    from '../../types';
 
 import { Textfield }        from 'react-mdl';
 
-import './searchbox.css';
+import './Searchbox.css';
 
 interface ISearchboxDispatchProps {
     textSearch: (input: string) => void;
@@ -53,7 +53,6 @@ export class UnconnectedSearchbox extends React.Component<ISearchbox & ISearchbo
                 onChange={ this.handleTextChange }
                 label="Search for..."
                 value={ this.props.textFieldContents }
-                style={ {width: '200px'} }
             />
         );
     }

@@ -2,7 +2,7 @@ import * as React                   from 'react';
 
 import { connect }                  from 'react-redux';
 
-import './mentionCounter.css';
+import './MentionCounter.css';
 
 export interface IMentionCounter {
     id: number;
@@ -25,13 +25,13 @@ export class UnconnectedMentionCounter extends React.Component<IMentionCounter, 
     }
 
     render() {
-        let mentionClass = '';
+        let mentionClass = 'mentioncounter-number ';
         if (this.props.selectedMentionCount < -10000 || this.props.selectedMentionCount > 10000) {
-            mentionClass = 'impossible_query';
+            mentionClass += 'impossible_query';
         } else if (this.props.selectedMentionCount < -5000 || this.props.selectedMentionCount > 5000) {
-            mentionClass = 'heavy_query';
+            mentionClass += 'heavy_query';
         } else {
-            mentionClass = 'safe_query';
+            mentionClass += 'safe_query';
         }
         return (
             <div className="mdl-textfield mdl-js-textfield mentioncounter">

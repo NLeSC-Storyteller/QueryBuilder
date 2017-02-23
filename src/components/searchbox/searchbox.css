@@ -1,3 +1,16 @@
 .searchbox {
-  margin-top: -15px;
+  /*margin-top: -15px;*/
+  width:      200px;
+}
+
+label.mdl-textfield__label {
+    color: white;
+}
+
+label.mdl-textfield__label:after {
+    background-color: white;
+}
+
+input#textfield-Searchfor {
+    border-bottom: 3px solid rgba(255,255,255, 0.33);
 }
