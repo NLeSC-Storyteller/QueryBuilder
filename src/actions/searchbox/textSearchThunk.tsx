@@ -1,5 +1,6 @@
 import { Dispatch }                             from 'redux';
 
+import { baseurl }                              from '../../config';
 import { GenericAction }                        from '../../types';
 import { textSearchInputChanged }               from './textSearchInputChanged';
 import { textSearchResultReceived }             from './textSearchResultReceived';
@@ -34,7 +35,7 @@ export const textSearchThunk = (collection: string, input: string) => {
 
         dispatch(textSearchInputChanged(input));
 
-        const url: string = 'http://localhost:5000/search/' + collection + '/' + input;
+        const url: string = baseurl + 'search/' + collection + '/' + input;
 
         fetch(url, {method: 'get'})
                 .then(handleTheStatus)
