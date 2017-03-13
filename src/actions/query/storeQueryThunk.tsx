@@ -1,6 +1,7 @@
 import { Dispatch }                             from 'redux';
 
 import { storeQueryWasClicked }                 from '../';
+import { baseurl }                              from '../../config';
 import { GenericAction }                        from '../../types';
 
 export interface IDatabaseNumberRecord {
@@ -24,7 +25,7 @@ export const storeQueryThunk = (username: string, query: string) => {
 
         dispatch(storeQueryWasClicked(username, query));
 
-        const url: string = 'http://localhost:5000/addquery/';
+        const url: string = baseurl + 'addquery/';
 
         const querydata = JSON.stringify({
             username,
