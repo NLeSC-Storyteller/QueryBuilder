@@ -60,7 +60,7 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
         const username = 'defaultuser';
         const query = this.props.query.queryString;
         this.props.storeQuery(username, query);
-        // this.props.closeDialog();
+        this.props.closeDialog();
     }
 
     public handleCloseDialog() {

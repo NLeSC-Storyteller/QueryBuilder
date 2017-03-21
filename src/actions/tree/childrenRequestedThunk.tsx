@@ -30,7 +30,9 @@ export const childrenRequestedThunk = (collection: string, dbid: number) => {
                     highlighted:  false,
                     name:         dbrecord.name,
                     parent:       dbrecord.childof,
-                    selected:     Selected.None
+                    selected:     Selected.None,
+                    query:        dbrecord.query,
+                    queryType:    dbrecord.query_type
                 };
             };
 
@@ -51,7 +53,9 @@ export const childrenRequestedThunk = (collection: string, dbid: number) => {
                     highlighted:  false,
                     name:         'empty',
                     parent:       -1,
-                    selected:     Selected.None
+                    selected:     Selected.None,
+                    query:        '',
+                    queryType:    ''
                 };
             dispatch(childrenReceived(collection, [fauxRoot]));
         };

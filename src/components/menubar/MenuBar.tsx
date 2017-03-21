@@ -19,7 +19,7 @@ export class MenuBar extends React.Component<any , { }> {
     }
 
     render() {
-        const colwidth = Math.floor(12 / collections.length);
+        const colwidth = 3; //Math.floor(12 / collections.length);
         const trees = collections.map((collection: string, indexOf: number) => {
             return (
                 <Cell key={indexOf} col={colwidth}>

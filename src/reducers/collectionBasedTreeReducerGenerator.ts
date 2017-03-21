@@ -14,7 +14,9 @@ export const collectionBasedTreeReducerGenerator = (collection = '', collectionB
             isfile:      false,
             name:        'root',
             parent:      undefined,
-            selected:    Selected.None
+            selected:    Selected.None,
+            query:      '',
+            queryType:  ''
         }
     };
     return (state: Nodes = initstate, action: GenericCollectionAction, textSearchState: any) => {

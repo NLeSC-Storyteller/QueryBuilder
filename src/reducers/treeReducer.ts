@@ -26,7 +26,9 @@ const initstate: Nodes = {
         mentioncount: 0,
         name:        'root',
         parent:      undefined,
-        selected:    Selected.None
+        selected:    Selected.None,
+        query:       '',
+        queryType:   ''
     }
 };
 

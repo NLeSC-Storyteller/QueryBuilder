@@ -6,4 +6,6 @@ export type DatabaseRecord = {
     childcount:     number;
     instancecount:  number;
     mentioncount:   number;
+    query:          number;
+    query_type:     number;
 }

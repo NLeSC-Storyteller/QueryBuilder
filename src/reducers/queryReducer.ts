@@ -69,53 +69,150 @@ function createQueryString(state: any) : string {
     let result : string = '';
 
     if (state.lightentities && state.lightentities.length > 0) {
-        result += ' --entityPhrase ';
         state.lightentities.forEach((entity: any) => {
-            result += entity.name + ';';
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
-
     if (state.darkentities && state.darkentities.length > 0) {
-        result += ' --entityPhrase ';
         state.darkentities.forEach((entity: any) => {
-            result += entity.name + ';';
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
-
     if (state.concepts && state.concepts.length > 0) {
-        result += ' --entityPhrase ';
         state.concepts.forEach((entity: any) => {
-            result += entity.name + ';';
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
-
     if (state.events && state.events.length > 0) {
-        result += ' --eventPhrase ';
-        state.events.forEach((event: any) => {
-            result += event.name + ';';
+        state.events.forEach((entity: any) => {
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
-
     if (state.authors && state.authors.length > 0) {
-        result += ' --authorPhrase ';
-        state.authors.forEach((author: any) => {
-            result += author.name + ';';
+        state.authors.forEach((entity: any) => {
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
-
     if (state.cited && state.cited.length > 0) {
-        result += ' --authorPhrase ';
-        state.cited.forEach((cited: any) => {
-            result += cited.name + ';';
+        state.cited.forEach((entity: any) => {
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
+        });
+    }
+    if (state.topics && state.topics.length > 0) {
+        state.topics.forEach((entity: any) => {
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
 
-    if (state.topics && state.topics.length > 0) {
-        result += ' --topic ';
-        state.topics.forEach((topic: any) => {
-            result += topic.name + ';';
-        });
-    }
+    // if (state.lightentities && state.lightentities.length > 0) {
+    //     result += ' --entityType ';
+    //     state.lightentities.forEach((entity: any) => {
+    //         if (entity.queryType === 'entityType') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+
+    //     result += ' --entityInstance ';
+    //     state.lightentities.forEach((entity: any) => {
+    //         if (entity.queryType === 'lightEntityInstance') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+    // }
+
+    // if (state.darkentities && state.darkentities.length > 0) {
+    //     result += ' --entityType ';
+    //     state.darkentities.forEach((entity: any) => {
+    //         if (entity.queryType === 'entityType') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+
+    //     result += ' --entityInstance ';
+    //     state.darkentities.forEach((entity: any) => {
+    //         if (entity.queryType === 'darkEntityInstance') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+    // }
+
+    // if (state.concepts && state.concepts.length > 0) {
+    //     result += ' --concept ';
+    //     state.concepts.forEach((entity: any) => {
+    //         if (entity.queryType === 'concept') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+
+    //     result += ' --conceptInstance ';
+    //     state.concepts.forEach((entity: any) => {
+    //         if (entity.queryType === 'conceptInstance') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+
+    //     result += ' --nonEntityInstance ';
+    //     state.concepts.forEach((entity: any) => {
+    //         if (entity.queryType === 'nonEntityInstance') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+    // }
+
+    // if (state.events && state.events.length > 0) {
+    //     result += ' --eventPhrase ';
+    //     state.events.forEach((entity: any) => {
+    //         if (entity.queryType === 'eventPhrase') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+
+    //     result += ' --eventType ';
+    //     state.events.forEach((entity: any) => {
+    //         if (entity.queryType === 'esoType') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+    // }
+
+    // if (state.authors && state.authors.length > 0) {
+    //     result += ' --authorType ';
+    //     state.authors.forEach((entity: any) => {
+    //         if (entity.queryType === 'authorType') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+
+    //     result += ' --authorPhrase ';
+    //     state.authors.forEach((entity: any) => {
+    //         if (entity.queryType === 'agentInstance') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+    // }
+
+    // if (state.cited && state.cited.length > 0) {
+    //     result += ' --citeType ';
+    //     state.cited.forEach((entity: any) => {
+    //         if (entity.queryType === 'citeType') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+
+    //     result += ' --citePhrase ';
+    //     state.cited.forEach((entity: any) => {
+    //         if (entity.queryType === 'agentInstance') {
+    //             result += entity.query + ';';
+    //         }
+    //     });
+    // }
+
+    // if (state.topics && state.topics.length > 0) {
+    //     result += ' --topic ';
+    //     state.topics.forEach((topic: any) => {
+    //         result += topic.query + ';';
+    //     });
+    // }
     return result;
 }
 

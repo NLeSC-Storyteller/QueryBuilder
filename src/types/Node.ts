@@ -10,4 +10,6 @@ export type Node = {
     name:        string;
     parent:      number | undefined;
     selected:    Selected;
+    query:       string;
+    queryType:  string;
 }

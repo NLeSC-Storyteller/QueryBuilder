@@ -49,7 +49,7 @@ export class UnconnectedQueryClearDialog extends React.Component<IQueryClearDial
 
     public clickClearQuery() {
       this.props.clearQuery();
-    //   this.props.closeDialog();
+      // Will close dialog automatically since it will overwrite the open condition.
     }
 
     public handleCloseDialog() {
