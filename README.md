@@ -42,7 +42,7 @@ The user is expected to find the QueryBuilder client interface at http://localho
 
 ## Troubleshooting
 
-The user may encounter an interface with one or more empty lists under the list categories. This is probably due to a malfuction in the preprocessing steps. Please see the https://github.com/NLeSC-Storyteller/query-builder-preprocessing repository for tips on how to resolve these issues.
+The user may encounter an interface with one or more empty lists under the list categories. This is probably due to a malfunction in the preprocessing steps. Please see the https://github.com/NLeSC-Storyteller/query-builder-preprocessing repository for tips on how to resolve these issues.
 
 ### Connect to the docker container for troubleshooting
 **linux**
