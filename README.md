@@ -7,7 +7,7 @@ Please note that the smooth operation of this module is dependent on a running n
 
 ## Installation
 ### Automated installation
-Please note that the installation and execution process is usually fully automated by Docker and Docker-Compose. For information on installing the full stack, see the https://github.com/NLeSC-Storyteller/StoryTeller repository for more information.
+Please note that the installation and execution process is usually fully automated by Docker and Docker-Compose. For information on installing the full stack, see the https://github.com/cltl/StoryTeller repository for more information.
 
 ### Manual installation
 **With Docker**  
