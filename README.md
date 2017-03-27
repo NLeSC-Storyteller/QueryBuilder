@@ -2,7 +2,8 @@
 A web interface to build custom queries for the Knowledge Store and generate datafiles that can be visualized with the Storyteller interface.
 
 ## About
-The QueryBuilder client is made using the https://facebook.github.io/react/ framework and uses http://redux.js.org/ for state management. It is written in Typescript. While this repository is in principle standalone and will operate, it is recommended to be used with the entire software stack, as detailed below. 
+The QueryBuilder client is made using the https://facebook.github.io/react/ framework and uses http://redux.js.org/ for state management. It is written in Typescript. While this repository is in principle standalone and will operate, it is recommended to be used with the entire software stack, as detailed below.   
+Please note that the smooth operation of this module is dependent on a running nlescstoryteller/query-builder-server running on port http://localhost:5000/ and makes heavy use of the API provided here:https://github.com/NLeSC-Storyteller/query-builder-server/blob/master/doc/API.md. 
 
 ## Installation
 ### Automated installation
@@ -23,7 +24,6 @@ After the installation of node package manager, the following bash command may b
 ```
 
 ## Useage
-
 ### Automated
 Please note that the installation and execution process is usually fully automated by Docker and Docker-Compose. For information on installing the full stack, see the https://github.com/NLeSC-Storyteller/StoryTeller repository for more information.
 
@@ -41,7 +41,6 @@ Please note that the installation and execution process is usually fully automat
 The user is expected to find the QueryBuilder client interface at http://localhost:3000/
 
 ## Troubleshooting
-
 The user may encounter an interface with one or more empty lists under the list categories. This is probably due to a malfunction in the preprocessing steps. Please see the https://github.com/NLeSC-Storyteller/query-builder-preprocessing repository for tips on how to resolve these issues.
 
 ### Connect to the docker container for troubleshooting
@@ -56,7 +55,6 @@ The user may encounter an interface with one or more empty lists under the list 
 ```
 
 # The Full QueryBuilder / Knowledgestore visualization system
-
 The full system consists of 7 parts:
 
 0. KnowledgeStore
