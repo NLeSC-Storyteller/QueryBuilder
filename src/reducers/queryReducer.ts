@@ -6,6 +6,12 @@ import { OPEN_CLEAR_QUERY_DIALOG }      from '../actions';
 import { CLOSE_BUILD_QUERY_DIALOG }     from '../actions';
 import { CLOSE_CLEAR_QUERY_DIALOG }     from '../actions';
 import { QUERY_TEXT_CHANGED }           from '../actions';
+import { CLEAR_ALL_QUERIES_WAS_CLICKED }from '../actions';
+import { REBUILD_DATABASE_WAS_CLICKED } from '../actions';
+import { OPEN_CLEAR_ALL_QUERIES_DIALOG }    from '../actions';
+import { CLOSE_CLEAR_ALL_QUERIES_DIALOG }   from '../actions';
+import { OPEN_REBUILD_DATABASE_DIALOG }     from '../actions';
+import { CLOSE_REBUILD_DATABASE_DIALOG }    from '../actions';
 
 import { collections }    from '../config';
 import { GenericAction }  from '../types';
@@ -104,115 +110,6 @@ function createQueryString(state: any) : string {
         });
     }
 
-    // if (state.lightentities && state.lightentities.length > 0) {
-    //     result += ' --entityType ';
-    //     state.lightentities.forEach((entity: any) => {
-    //         if (entity.queryType === 'entityType') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-
-    //     result += ' --entityInstance ';
-    //     state.lightentities.forEach((entity: any) => {
-    //         if (entity.queryType === 'lightEntityInstance') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-    // }
-
-    // if (state.darkentities && state.darkentities.length > 0) {
-    //     result += ' --entityType ';
-    //     state.darkentities.forEach((entity: any) => {
-    //         if (entity.queryType === 'entityType') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-
-    //     result += ' --entityInstance ';
-    //     state.darkentities.forEach((entity: any) => {
-    //         if (entity.queryType === 'darkEntityInstance') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-    // }
-
-    // if (state.concepts && state.concepts.length > 0) {
-    //     result += ' --concept ';
-    //     state.concepts.forEach((entity: any) => {
-    //         if (entity.queryType === 'concept') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-
-    //     result += ' --conceptInstance ';
-    //     state.concepts.forEach((entity: any) => {
-    //         if (entity.queryType === 'conceptInstance') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-
-    //     result += ' --nonEntityInstance ';
-    //     state.concepts.forEach((entity: any) => {
-    //         if (entity.queryType === 'nonEntityInstance') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-    // }
-
-    // if (state.events && state.events.length > 0) {
-    //     result += ' --eventPhrase ';
-    //     state.events.forEach((entity: any) => {
-    //         if (entity.queryType === 'eventPhrase') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-
-    //     result += ' --eventType ';
-    //     state.events.forEach((entity: any) => {
-    //         if (entity.queryType === 'esoType') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-    // }
-
-    // if (state.authors && state.authors.length > 0) {
-    //     result += ' --authorType ';
-    //     state.authors.forEach((entity: any) => {
-    //         if (entity.queryType === 'authorType') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-
-    //     result += ' --authorPhrase ';
-    //     state.authors.forEach((entity: any) => {
-    //         if (entity.queryType === 'agentInstance') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-    // }
-
-    // if (state.cited && state.cited.length > 0) {
-    //     result += ' --citeType ';
-    //     state.cited.forEach((entity: any) => {
-    //         if (entity.queryType === 'citeType') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-
-    //     result += ' --citePhrase ';
-    //     state.cited.forEach((entity: any) => {
-    //         if (entity.queryType === 'agentInstance') {
-    //             result += entity.query + ';';
-    //         }
-    //     });
-    // }
-
-    // if (state.topics && state.topics.length > 0) {
-    //     result += ' --topic ';
-    //     state.topics.forEach((topic: any) => {
-    //         result += topic.query + ';';
-    //     });
-    // }
     return result;
 }
 
@@ -234,14 +131,28 @@ export const queryReducer = (state: any = initstate, action: GenericAction) => {
         return Object.assign({}, state.query, {isQueryBuildDialogOpen: true});
     } else if (action.type === OPEN_CLEAR_QUERY_DIALOG) {
         return Object.assign({}, state.query, {isQueryClearDialogOpen: true});
+    } else if (action.type === OPEN_CLEAR_ALL_QUERIES_DIALOG) {
+        return Object.assign({}, state.query, {isClearAllQueriesDialogOpen: true});
+    } else if (action.type === OPEN_REBUILD_DATABASE_DIALOG) {
+        return Object.assign({}, state.query, {isRebuildDatabaseDialogOpen: true});
     } else if (action.type === CLOSE_BUILD_QUERY_DIALOG) {
         return Object.assign({}, state.query, {isQueryBuildDialogOpen: false});
     } else if (action.type === CLOSE_CLEAR_QUERY_DIALOG) {
         return Object.assign({}, state.query, {isQueryClearDialogOpen: false});
+    } else if (action.type === CLOSE_CLEAR_ALL_QUERIES_DIALOG) {
+        return Object.assign({}, state.query, {isClearAllQueriesDialogOpen: false});
+    } else if (action.type === CLOSE_REBUILD_DATABASE_DIALOG) {
+        return Object.assign({}, state.query, {isRebuildDatabaseDialogOpen: false});
     } else if (action.type === QUERY_TEXT_CHANGED) {
         const { newtext } = action.payload;
         return Object.assign({}, state.query, {queryString: newtext});
     } else if (action.type === STORE_QUERY_WAS_CLICKED) {
+        //Needs something done, like a spinner or something.
+        return state.query;
+    } else if (action.type === CLEAR_ALL_QUERIES_WAS_CLICKED) {
+        //Needs something done, like a spinner or something.
+        return state.query;
+    } else if (action.type === REBUILD_DATABASE_WAS_CLICKED) {
         //Needs something done, like a spinner or something.
         return state.query;
     } else {

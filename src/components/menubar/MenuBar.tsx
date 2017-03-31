@@ -1,5 +1,8 @@
 import * as React               from 'react';
 
+import { connect }              from 'react-redux';
+import { Dispatch }             from 'redux';
+
 import { Cell, Content, Drawer, Grid, Header, Layout, Navigation } from 'react-mdl';
 
 import { MentionCounter }       from '../';
@@ -8,14 +11,53 @@ import { QueryClearButton }     from '../';
 import { QueryBuildButton }     from '../';
 import { Searchbox }            from '../';
 
-import { Tree }             from '../';
-import { collections }      from '../../config';
+import { Tree }                         from '../';
+import { openClearAllQueriesDialog }    from '../../actions';
+import { openRebuildDatabaseDialog }    from '../../actions';
+import { collections }                  from '../../config';
+import { GenericAction }                from '../../types';
 
 import './MenuBar.css';
 
-export class MenuBar extends React.Component<any , { }> {
+interface IMenuBarDispatchProps {
+    openClearAllDialog: () => void;
+    openRebuildDialog: () => void;
+}
+
+export interface IMenuBar {
+    buttonActive: boolean;
+}
+
+export class UnconnectedMenuBar extends React.Component<IMenuBar & IMenuBarDispatchProps, { }> {
     constructor() {
         super();
+
+        this.onClickClearAll = this.onClickClearAll.bind(this);
+        this.onClickRebuild = this.onClickRebuild.bind(this);
+    }
+
+    static mapStateToProps() {
+        return {
+        };
+    }
+
+    static mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+        return {
+            openClearAllDialog: () => {
+                dispatch(openClearAllQueriesDialog());
+            },
+            openRebuildDialog: () => {
+                dispatch(openRebuildDatabaseDialog());
+            }
+        };
+    }
+
+    public onClickClearAll() {
+        this.props.openClearAllDialog();
+    }
+
+    public onClickRebuild() {
+        this.props.openRebuildDialog();
     }
 
     render() {
@@ -44,10 +86,8 @@ export class MenuBar extends React.Component<any , { }> {
 
                     <Drawer title="DANGER Zone">
                         <Navigation>
-                            <a href="">Rebuild Database</a>
-                            <a href="">Clear all queries</a>
-                            <a href="">Link</a>
-                            <a href="">Link</a>
+                            <a onClick={ this.onClickRebuild } href="">Rebuild Database</a>
+                            <a onClick={ this.onClickClearAll } href="">Clear all queries</a>
                         </Navigation>
                     </Drawer>
 
@@ -61,3 +101,7 @@ export class MenuBar extends React.Component<any , { }> {
         );
     }
 }
+
+// Export just the connected component
+export const MenuBar = connect(UnconnectedMenuBar.mapStateToProps,
+                               UnconnectedMenuBar.mapDispatchToProps)(UnconnectedMenuBar);
