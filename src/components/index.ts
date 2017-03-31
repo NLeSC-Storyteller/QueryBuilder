@@ -17,6 +17,9 @@ export { QueryClearButton } from './query/QueryClearButton';
 export { QueryClearDialog } from './query/QueryClearDialog';
 export { QueryMenu }        from './query/QueryMenu';
 
+export { ClearAllQueriesDialog } from './menubar/ClearAllQueriesDialog';
+export { RebuildDatabaseDialog } from './menubar/RebuildDatabaseDialog';
+
 // Mentioncounter related
 export { MentionCounter }   from './mentioncounter/MentionCounter';
 

@@ -10,6 +10,8 @@ import { LogoBox }              from '../';
 import { QueryClearButton }     from '../';
 import { QueryBuildButton }     from '../';
 import { Searchbox }            from '../';
+import { ClearAllQueriesDialog }from '../';
+import { RebuildDatabaseDialog }from '../';
 
 import { Tree }                         from '../';
 import { openClearAllQueriesDialog }    from '../../actions';
@@ -90,6 +92,9 @@ export class UnconnectedMenuBar extends React.Component<IMenuBar & IMenuBarDispa
                             <a onClick={ this.onClickClearAll } href="">Clear all queries</a>
                         </Navigation>
                     </Drawer>
+
+                    <ClearAllQueriesDialog />
+                    <RebuildDatabaseDialog />
 
                     <Content>
                         <Grid>
