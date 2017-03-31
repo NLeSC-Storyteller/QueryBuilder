@@ -57,12 +57,12 @@ export class UnconnectedRebuildDatabaseDialog extends React.Component<IRebuildDa
     render() {
         return (
             <Dialog key="clearDialog" open={this.props.dialogOpen} onCancel={this.handleCloseDialog}>
-                <DialogTitle component="h4">You are about to clear the queries of ALL USERS. Are you sure?</DialogTitle>
+                <DialogTitle component="h4">You are about to rebuild the overview database. Are you sure?</DialogTitle>
                 <DialogContent>
                     You will not be able to undo this action.
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.clickRebuildDatabase}>Clear ALL Queries</Button>
+                    <Button onClick={this.clickRebuildDatabase}>Rebuild the database</Button>
                     <Button onClick={this.handleCloseDialog}>Cancel</Button>
                 </DialogActions>
             </Dialog>
