@@ -88,8 +88,8 @@ export class UnconnectedMenuBar extends React.Component<IMenuBar & IMenuBarDispa
 
                     <Drawer title="DANGER Zone">
                         <Navigation>
-                            <a onClick={ this.onClickRebuild } href="">Rebuild Database</a>
-                            <a onClick={ this.onClickClearAll } href="">Clear all queries</a>
+                            <a onClick={ this.onClickRebuild }>Rebuild Database</a>
+                            <a onClick={ this.onClickClearAll }>Clear all queries</a>
                         </Navigation>
                     </Drawer>
 
