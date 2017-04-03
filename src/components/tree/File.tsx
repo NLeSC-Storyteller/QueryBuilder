@@ -19,18 +19,23 @@ export class File extends React.Component<any, any> {
     }
 
     render(): JSX.Element {
-        const { name, highlighted, selected } = this.props.nodes[this.props.dbid];
+        const { name, highlighted, selected, mentioncount } = this.props.nodes[this.props.dbid];
         const accent = selected === Selected.All;
 
         return (
             <Button
-                className={'mdl-button nomargin'}
+                className={'mdl-button file-button nomargin fileStyle'}
                 onClick={this.onClickFile}
                 raised
                 colored={highlighted}
                 accent={accent}
             >
-                {name}
+                <span className={'fileText'}>
+                    {name}
+                </span>
+                <span className={'fileNumber'}>
+                    { mentioncount }
+                </span>
             </Button>
         );
     }

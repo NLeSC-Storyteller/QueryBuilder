@@ -3,9 +3,9 @@ import * as React                   from 'react';
 import { connect }                  from 'react-redux';
 import { Dispatch }                 from 'redux';
 
-import { clearAllQueriesThunk } from '../../actions';
-import { closeClearAllQueriesDialog }    from '../../actions';
-import { GenericAction }            from '../../types';
+import { clearAllQueriesThunk }         from '../../actions';
+import { closeClearAllQueriesDialog }   from '../../actions';
+import { GenericAction }                from '../../types';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from 'react-mdl';
 
@@ -72,4 +72,4 @@ export class UnconnectedClearAllQueriesDialog extends React.Component<IClearAllQ
 
 // Export just the connected component
 export const ClearAllQueriesDialog = connect(UnconnectedClearAllQueriesDialog.mapStateToProps,
-                                        UnconnectedClearAllQueriesDialog.mapDispatchToProps)(UnconnectedClearAllQueriesDialog);
+                                             UnconnectedClearAllQueriesDialog.mapDispatchToProps)(UnconnectedClearAllQueriesDialog);

@@ -16,8 +16,10 @@ import { RebuildDatabaseDialog }from '../';
 import { Tree }                         from '../';
 import { openClearAllQueriesDialog }    from '../../actions';
 import { openRebuildDatabaseDialog }    from '../../actions';
-import { collections }                  from '../../config';
 import { GenericAction }                from '../../types';
+
+//Only need this for the 'generic' solution, which we do not use now
+// import { collections }                  from '../../config';
 
 import './MenuBar.css';
 
@@ -63,15 +65,16 @@ export class UnconnectedMenuBar extends React.Component<IMenuBar & IMenuBarDispa
     }
 
     render() {
-        const colwidth = 3; //Math.floor(12 / collections.length);
+        //Generic Solution
+        /*const colwidth = 3; //Math.floor(12 / collections.length);
         const trees = collections.map((collection: string, indexOf: number) => {
             return (
                 <Cell key={indexOf} col={colwidth}>
-                    <p>{collection}</p>
+                    <h4>{collection}</h4>
                     <Tree collection={collection}/>
                 </Cell>
                 );
-        });
+        });*/
 
         return (
             <div className={'main-menu-bar'}>
@@ -98,7 +101,34 @@ export class UnconnectedMenuBar extends React.Component<IMenuBar & IMenuBarDispa
 
                     <Content>
                         <Grid>
-                            {trees}
+                            {/*generic solution*/}
+                            {/*{trees}*/}
+
+                            {/* custom solution */}
+                            <Cell key={0} col={3}>
+                                <h4>{'light entities'}</h4>
+                                <Tree collection={'light'}/>
+                                <h4>{'dark entities'}</h4>
+                                <Tree collection={'dark'}/>
+                                <h4>{'concepts'}</h4>
+                                <Tree collection={'concepts'}/>
+                            </Cell>
+                            <Cell key={1} col={3}>
+                                <h4>{'events'}</h4>
+                                <Tree collection={'events'}/>
+                            </Cell>
+                            <Cell key={2} col={3}>
+                                <h4>{'authors'}</h4>
+                                <Tree collection={'authors'}/>
+                                <h4>{'cited'}</h4>
+                                <Tree collection={'cited'}/>
+                                <h4>{'perspectives'}</h4>
+                                <Tree collection={'perspectives'}/>
+                            </Cell>
+                            <Cell key={3} col={3}>
+                                <h4>{'topics'}</h4>
+                                <Tree collection={'topics'}/>
+                            </Cell>
                         </Grid>
                     </Content>
                 </Layout>

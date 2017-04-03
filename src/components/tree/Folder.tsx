@@ -48,7 +48,7 @@ export class Folder extends React.Component<any, any> {
 
     render(): JSX.Element {
 
-        const { name, expanded, selected, highlighted } = this.props.nodes[this.props.dbid];
+        const { name, expanded, selected, highlighted, mentioncount } = this.props.nodes[this.props.dbid];
         const checked = selected === Selected.All;
         const indeterminate = selected === Selected.Partial;
         const className = 'mdl-cell mdl-cell--12-col nomargin category';
@@ -59,6 +59,9 @@ export class Folder extends React.Component<any, any> {
                     <TristateCheckbox onChange={this.onClickCheckbox} checked={checked} indeterminate={indeterminate}/>
                     <span className="categoryText" onClick={this.onClickFolder} >
                         {name}
+                    </span>
+                    <span>
+                        { mentioncount }
                     </span>
                 </Cell>
                 {this.renderFolderContents(expanded)}

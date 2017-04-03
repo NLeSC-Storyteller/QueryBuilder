@@ -7,10 +7,29 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+    height: 20px;
+    line-height: 20px;
 }
 
 .categoryText {
-  width: 90%
+  width: 90%;
+  font-size: x-small;
+  cursor: pointer;
+}
+
+.fileStyle {
+  display: flex !important;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.fileText {
+  font-size: x-small;
+}
+
+.file-button {
+    height: 20px;
+    line-height: 20px;
 }
 
 .highlighted {
