@@ -8,7 +8,7 @@ export interface IDatabaseNumberRecord {
     myID: number;
 }
 
-export const rebuildDatabaseThunk = () => {
+export const rebuildDatabaseThunk = (password: string) => {
     return (dispatch: Dispatch<GenericAction>) => {
         const handleTheStatus = (response: Response) => {
             if (response.ok) {
@@ -28,6 +28,7 @@ export const rebuildDatabaseThunk = () => {
         const url: string = daemonurl + 'rebuild';
 
         const querydata = JSON.stringify({
+            password
         });
 
         fetch(url, {

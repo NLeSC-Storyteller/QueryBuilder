@@ -72,34 +72,6 @@ export class UnconnectedQueryManagementDialog extends React.Component<IQueryMana
     }
 
     render() {
-        let queryEntities: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.entities !== undefined) {
-            const temp: any[] = this.props.query.entities;
-            queryEntities = temp.map((queryEntity: any) =>
-                <div key={queryEntity.name}>{queryEntity.name}</div>
-            );
-        }
-        let queryEvents: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.events !== undefined) {
-            const temp: any[] = this.props.query.events;
-            queryEvents = temp.map((queryEvent: any) =>
-                <div key={queryEvent.name}>{queryEvent.name}</div>
-            );
-        }
-        let querySources: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.sources !== undefined) {
-            const temp: any[] = this.props.query.sources;
-            querySources = temp.map((querySource: any) =>
-                <div key={querySource.name}>{querySource.name}</div>
-            );
-        }
-        let queryTopics: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.topics !== undefined) {
-            const temp: any[] = this.props.query.topics;
-            queryTopics = temp.map((queryTopic: any) =>
-                <div key={queryTopic.name}>{queryTopic.name}</div>
-            );
-        }
         const count = this.props.query.selectedMentionCount;
         let mentionClass = '';
         if (this.props.query.selectedMentionCount < -10000 || this.props.query.selectedMentionCount > 10000) {
@@ -114,7 +86,6 @@ export class UnconnectedQueryManagementDialog extends React.Component<IQueryMana
             <Dialog key="buildDialog" open={this.props.dialogOpen} onCancel={this.handleCloseDialog}>
                 <DialogTitle component="h4">Do you want to send the following query to the KnowledgeStore?</DialogTitle>
                 <DialogContent>
-                    <div> Daemon status: {this.props.daemonStatus} </div>
                     <div>
                         Number of mentions selected:
                         <span className={mentionClass}>

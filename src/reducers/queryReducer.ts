@@ -1,17 +1,18 @@
-import { CLEAR_QUERY_WAS_CLICKED }      from '../actions';
-import { INITIATE_BUILD_QUERY }         from '../actions';
-import { STORE_QUERY_WAS_CLICKED }      from '../actions';
-import { OPEN_BUILD_QUERY_DIALOG }      from '../actions';
-import { OPEN_CLEAR_QUERY_DIALOG }      from '../actions';
-import { CLOSE_BUILD_QUERY_DIALOG }     from '../actions';
-import { CLOSE_CLEAR_QUERY_DIALOG }     from '../actions';
-import { QUERY_TEXT_CHANGED }           from '../actions';
-import { CLEAR_ALL_QUERIES_WAS_CLICKED }from '../actions';
-import { REBUILD_DATABASE_WAS_CLICKED } from '../actions';
+import { CLEAR_QUERY_WAS_CLICKED }          from '../actions';
+import { INITIATE_BUILD_QUERY }             from '../actions';
+import { STORE_QUERY_WAS_CLICKED }          from '../actions';
+import { OPEN_BUILD_QUERY_DIALOG }          from '../actions';
+import { OPEN_CLEAR_QUERY_DIALOG }          from '../actions';
+import { CLOSE_BUILD_QUERY_DIALOG }         from '../actions';
+import { CLOSE_CLEAR_QUERY_DIALOG }         from '../actions';
+import { QUERY_TEXT_CHANGED }               from '../actions';
+import { CLEAR_ALL_QUERIES_WAS_CLICKED }    from '../actions';
+import { REBUILD_DATABASE_WAS_CLICKED }     from '../actions';
 import { OPEN_CLEAR_ALL_QUERIES_DIALOG }    from '../actions';
 import { CLOSE_CLEAR_ALL_QUERIES_DIALOG }   from '../actions';
 import { OPEN_REBUILD_DATABASE_DIALOG }     from '../actions';
 import { CLOSE_REBUILD_DATABASE_DIALOG }    from '../actions';
+import { PASSWORD_TEXT_CHANGED }            from '../actions';
 
 import { collections }    from '../config';
 import { GenericAction }  from '../types';
@@ -74,13 +75,13 @@ function countMentions(state: any) : number {
 function createQueryString(state: any) : string {
     let result : string = '';
 
-    if (state.lightentities && state.lightentities.length > 0) {
-        state.lightentities.forEach((entity: any) => {
+    if (state.light && state.light.length > 0) {
+        state.light.forEach((entity: any) => {
             result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
-    if (state.darkentities && state.darkentities.length > 0) {
-        state.darkentities.forEach((entity: any) => {
+    if (state.dark && state.dark.length > 0) {
+        state.dark.forEach((entity: any) => {
             result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
@@ -106,6 +107,11 @@ function createQueryString(state: any) : string {
     }
     if (state.topics && state.topics.length > 0) {
         state.topics.forEach((entity: any) => {
+            result += ' --' + entity.queryType + ' ' + entity.query + ';';
+        });
+    }
+    if (state.perspectives && state.perspectives.length > 0) {
+        state.perspectives.forEach((entity: any) => {
             result += ' --' + entity.queryType + ' ' + entity.query + ';';
         });
     }
@@ -146,6 +152,9 @@ export const queryReducer = (state: any = initstate, action: GenericAction) => {
     } else if (action.type === QUERY_TEXT_CHANGED) {
         const { newtext } = action.payload;
         return Object.assign({}, state.query, {queryString: newtext});
+    } else if (action.type === PASSWORD_TEXT_CHANGED) {
+        const { password } = action.payload;
+        return Object.assign({}, state.query, {password});
     } else if (action.type === STORE_QUERY_WAS_CLICKED) {
         //Needs something done, like a spinner or something.
         return state.query;
