@@ -25,7 +25,7 @@ export const rebuildDatabaseThunk = () => {
 
         dispatch(rebuildDatabaseWasClicked());
 
-        const url: string = daemonurl + 'rebuild/';
+        const url: string = daemonurl + 'rebuild';
 
         const querydata = JSON.stringify({
         });

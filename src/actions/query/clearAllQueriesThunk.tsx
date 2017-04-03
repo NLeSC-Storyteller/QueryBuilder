@@ -25,7 +25,7 @@ export const clearAllQueriesThunk = () => {
 
         dispatch(clearAllQueriesWasClicked());
 
-        const url: string = daemonurl + 'clearall/';
+        const url: string = daemonurl + 'clearall';
 
         const querydata = JSON.stringify({
         });
