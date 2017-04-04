@@ -22,6 +22,7 @@ export { CLOSE_CLEAR_ALL_QUERIES_DIALOG }     from './authorized-actions';
 export { CLOSE_REBUILD_DATABASE_DIALOG }      from './authorized-actions';
 export { CLEAR_ALL_QUERIES_WAS_CLICKED }      from './authorized-actions';
 export { REBUILD_DATABASE_WAS_CLICKED }       from './authorized-actions';
+export { PASSWORD_TEXT_CHANGED }              from './authorized-actions';
 
 // Searchbox related
 export { TEXT_SEARCH_INPUT_CHANGED }          from './authorized-actions';
@@ -51,6 +52,7 @@ export { closeClearAllQueriesDialog }         from './query/closeClearAllQueries
 export { closeRebuildDatabaseDialog }         from './query/closeRebuildDatabaseDialog';
 export { clearAllQueriesWasClicked }          from './query/clearAllQueriesWasClicked';
 export { rebuildDatabaseWasClicked }          from './query/rebuildDatabaseWasClicked';
+export { passwordTextChanged }                from './query/passwordTextChanged';
 
 // Searchbox related
 export { textSearchInputChanged }             from './searchbox/textSearchInputChanged';

@@ -8,7 +8,7 @@ export interface IDatabaseNumberRecord {
     myID: number;
 }
 
-export const clearAllQueriesThunk = () => {
+export const clearAllQueriesThunk = (password: string) => {
     return (dispatch: Dispatch<GenericAction>) => {
         const handleTheStatus = (response: Response) => {
             if (response.ok) {
@@ -28,6 +28,7 @@ export const clearAllQueriesThunk = () => {
         const url: string = daemonurl + 'clearall';
 
         const querydata = JSON.stringify({
+            password
         });
 
         fetch(url, {

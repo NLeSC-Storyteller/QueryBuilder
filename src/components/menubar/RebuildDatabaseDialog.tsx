@@ -3,21 +3,24 @@ import * as React                   from 'react';
 import { connect }                  from 'react-redux';
 import { Dispatch }                 from 'redux';
 
+import { passwordTextChanged }          from '../../actions';
 import { rebuildDatabaseThunk } from '../../actions';
 import { closeRebuildDatabaseDialog }    from '../../actions';
 import { GenericAction }            from '../../types';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from 'react-mdl';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Textfield } from 'react-mdl';
 
 import './QueryDialogs.css';
 
 interface IRebuildDatabaseDialogDispatchProps {
-    rebuildDatabase: () => void;
+    rebuildDatabase: (password: string) => void;
     closeDialog: () => void;
+    changePassword: (password: string) => void;
 }
 
 export interface IRebuildDatabaseDialog {
     dialogOpen: boolean;
+    password: string;
 }
 
 export class UnconnectedRebuildDatabaseDialog extends React.Component<IRebuildDatabaseDialog & IRebuildDatabaseDialogDispatchProps, {}> {
@@ -26,27 +29,32 @@ export class UnconnectedRebuildDatabaseDialog extends React.Component<IRebuildDa
 
         this.clickRebuildDatabase = this.clickRebuildDatabase.bind(this);
         this.handleCloseDialog = this.handleCloseDialog.bind(this);
+        this.handlePasswordTextChange = this.handlePasswordTextChange.bind(this);
     }
 
     static mapStateToProps(state: any) {
         return {
-            dialogOpen: state.query.isRebuildDatabaseDialogOpen
+            dialogOpen: state.query.isRebuildDatabaseDialogOpen,
+            password: state.query.password
         };
     }
 
     static mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         return {
-            rebuildDatabase: () => {
-                dispatch(rebuildDatabaseThunk());
+            rebuildDatabase: (password: string) => {
+                dispatch(rebuildDatabaseThunk(password));
             },
             closeDialog: () => {
                 dispatch(closeRebuildDatabaseDialog());
+            },
+            changePassword: (password: string) => {
+                dispatch(passwordTextChanged(password));
             }
         };
     }
 
     public clickRebuildDatabase() {
-      this.props.rebuildDatabase();
+      this.props.rebuildDatabase(this.props.password);
       this.props.closeDialog();
     }
 
@@ -54,11 +62,25 @@ export class UnconnectedRebuildDatabaseDialog extends React.Component<IRebuildDa
         this.props.closeDialog();
     }
 
+    public handlePasswordTextChange(event : any) {
+        this.props.changePassword(event.target.value);
+    }
+
     render() {
         return (
             <Dialog key="clearDialog" open={this.props.dialogOpen} onCancel={this.handleCloseDialog}>
                 <DialogTitle component="h4">You are about to rebuild the overview database. Are you sure?</DialogTitle>
                 <DialogContent>
+                    <p> please enter the admin password to proceed </p>
+                    <Textfield
+                        className="passwordtextbox"
+                        key="PasswordField"
+                        onChange={this.handlePasswordTextChange}
+                        label="Password..."
+                        required={true}
+                        type={'password'}
+                        value={this.props.password}
+                    />
                     You will not be able to undo this action.
                 </DialogContent>
                 <DialogActions>
