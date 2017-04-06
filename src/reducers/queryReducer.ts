@@ -13,6 +13,7 @@ import { CLOSE_CLEAR_ALL_QUERIES_DIALOG }   from '../actions';
 import { OPEN_REBUILD_DATABASE_DIALOG }     from '../actions';
 import { CLOSE_REBUILD_DATABASE_DIALOG }    from '../actions';
 import { PASSWORD_TEXT_CHANGED }            from '../actions';
+import { USERNAME_TEXT_CHANGED }            from '../actions';
 
 import { collections }    from '../config';
 import { GenericAction }  from '../types';
@@ -20,8 +21,12 @@ import { Node }           from '../types';
 import { Selected }       from '../types';
 
 const initstate: any = {
-    isQueryDialogOpen: false,
+    isQueryBuildDialogOpen: false,
+    isQueryClearDialogOpen: false,
+    isClearAllQueriesDialogOpen: false,
+    isRebuildDatabaseDialogOpen: false,
     selectedMentionCount: 0,
+    username: 'defaultuser',
     queryString: ''
 };
 
@@ -155,6 +160,9 @@ export const queryReducer = (state: any = initstate, action: GenericAction) => {
     } else if (action.type === PASSWORD_TEXT_CHANGED) {
         const { password } = action.payload;
         return Object.assign({}, state.query, {password});
+    } else if (action.type === USERNAME_TEXT_CHANGED) {
+        const { username } = action.payload;
+        return Object.assign({}, state.query, {username});
     } else if (action.type === STORE_QUERY_WAS_CLICKED) {
         //Needs something done, like a spinner or something.
         return state.query;

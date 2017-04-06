@@ -33,8 +33,7 @@ export const rebuildDatabaseThunk = (password: string) => {
 
         fetch(url, {
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
+                Accept: 'text/html'
             },
             method: 'POST',
             body: querydata

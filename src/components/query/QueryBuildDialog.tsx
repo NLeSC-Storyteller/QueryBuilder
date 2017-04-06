@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { storeQueryThunk } from '../../actions';
 import { closeBuildQueryDialog } from '../../actions';
 import { queryTextChanged } from '../../actions';
+import { usernameTextChanged } from '../../actions';
 import { GenericAction } from '../../types';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Textfield } from 'react-mdl';
@@ -16,6 +17,7 @@ import './QueryDialogs.css';
 interface IQueryBuildDialogDispatchProps {
     storeQuery: (username: string, query: string) => void;
     closeDialog: () => void;
+    changeUsername: (username: string) => void;
     changeQueryText: (newtext: string) => void;
 }
 
@@ -23,6 +25,7 @@ export interface IQueryBuildDialog {
     query: any;
     dialogOpen: boolean;
     daemonStatus: number;
+    username: string;
 }
 
 export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDialog & IQueryBuildDialogDispatchProps, {}> {
@@ -32,13 +35,15 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
         this.clickStoreQuery = this.clickStoreQuery.bind(this);
         this.handleCloseDialog = this.handleCloseDialog.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleUsernameTextChange = this.handleUsernameTextChange.bind(this);
     }
 
-    static mapStateToProps(state: any) { //state: IStore) {
+    static mapStateToProps(state: any) {
         return {
             query: state.query,
             dialogOpen: state.query.isQueryBuildDialogOpen,
-            daemonStatus: state.query.daemonStatus
+            daemonStatus: state.query.daemonStatus,
+            username: state.query.username
         };
     }
 
@@ -52,12 +57,15 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
             },
             changeQueryText: (newtext: string) => {
                 dispatch(queryTextChanged(newtext));
+            },
+            changeUsername: (username: string) => {
+                dispatch(usernameTextChanged(username));
             }
         };
     }
 
     public clickStoreQuery() {
-        const username = 'defaultuser';
+        const username = this.props.username;
         const query = this.props.query.queryString;
         this.props.storeQuery(username, query);
         this.props.closeDialog();
@@ -71,35 +79,11 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
         this.props.changeQueryText(event.target.value);
     }
 
+    public handleUsernameTextChange(event: any) {
+        this.props.changeUsername(event.target.value);
+    }
+
     render() {
-        let queryEntities: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.entities !== undefined) {
-            const temp: any[] = this.props.query.entities;
-            queryEntities = temp.map((queryEntity: any) =>
-                <div key={queryEntity.name}>{queryEntity.name}</div>
-            );
-        }
-        let queryEvents: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.events !== undefined) {
-            const temp: any[] = this.props.query.events;
-            queryEvents = temp.map((queryEvent: any) =>
-                <div key={queryEvent.name}>{queryEvent.name}</div>
-            );
-        }
-        let querySources: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.sources !== undefined) {
-            const temp: any[] = this.props.query.sources;
-            querySources = temp.map((querySource: any) =>
-                <div key={querySource.name}>{querySource.name}</div>
-            );
-        }
-        let queryTopics: JSX.Element[] = [];
-        if (this.props.query !== undefined && this.props.query.topics !== undefined) {
-            const temp: any[] = this.props.query.topics;
-            queryTopics = temp.map((queryTopic: any) =>
-                <div key={queryTopic.name}>{queryTopic.name}</div>
-            );
-        }
         const count = this.props.query.selectedMentionCount;
         let mentionClass = '';
         if (this.props.query.selectedMentionCount < -10000 || this.props.query.selectedMentionCount > 10000) {
@@ -114,7 +98,6 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
             <Dialog key="buildDialog" open={this.props.dialogOpen} onCancel={this.handleCloseDialog}>
                 <DialogTitle component="h4">Do you want to send the following query to the KnowledgeStore?</DialogTitle>
                 <DialogContent>
-                    <div> Daemon status: {this.props.daemonStatus} </div>
                     <div>
                         Number of mentions selected:
                         <span className={mentionClass}>
@@ -133,6 +116,17 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
                         rows={3}
                         expandable
                         value={this.props.query.queryString}
+                    />
+                    <div>
+                        <b>Username:</b>
+                    </div>
+                    <Textfield
+                        className="usernametextbox"
+                        key="UsernameField"
+                        onChange={this.handleUsernameTextChange}
+                        label="Username..."
+                        required={true}
+                        value={this.props.username}
                     />
                 </DialogContent>
                 <DialogActions>
