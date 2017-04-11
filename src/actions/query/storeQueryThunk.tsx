@@ -8,7 +8,7 @@ export interface IDatabaseNumberRecord {
     myID: number;
 }
 
-export const storeQueryThunk = (username: string, query: string) => {
+export const storeQueryThunk = (username: string, query: string, limit: number) => {
     return (dispatch: Dispatch<GenericAction>) => {
         const handleTheStatus = (response: Response) => {
             if (response.ok) {
@@ -23,13 +23,14 @@ export const storeQueryThunk = (username: string, query: string) => {
             throw new Error('Errors occured. ' + err.message + err.stack);
         };
 
-        dispatch(storeQueryWasClicked(username, query));
+        dispatch(storeQueryWasClicked(username, query, limit));
 
         const url: string = baseurl + 'addquery/';
 
         const querydata = JSON.stringify({
             username,
-            query
+            query,
+            limit
         });
 
         fetch(url, {

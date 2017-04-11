@@ -7,6 +7,7 @@ import { storeQueryThunk } from '../../actions';
 import { closeBuildQueryDialog } from '../../actions';
 import { queryTextChanged } from '../../actions';
 import { usernameTextChanged } from '../../actions';
+import { limitChanged } from '../../actions';
 import { GenericAction } from '../../types';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Textfield } from 'react-mdl';
@@ -15,10 +16,11 @@ import '../shared.css';
 import './QueryDialogs.css';
 
 interface IQueryBuildDialogDispatchProps {
-    storeQuery: (username: string, query: string) => void;
+    storeQuery: (username: string, query: string, limit: number) => void;
     closeDialog: () => void;
     changeUsername: (username: string) => void;
     changeQueryText: (newtext: string) => void;
+    changeLimit: (newlimit: number) => void;
 }
 
 export interface IQueryBuildDialog {
@@ -26,6 +28,7 @@ export interface IQueryBuildDialog {
     dialogOpen: boolean;
     daemonStatus: number;
     username: string;
+    limit: number;
 }
 
 export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDialog & IQueryBuildDialogDispatchProps, {}> {
@@ -36,6 +39,7 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
         this.handleCloseDialog = this.handleCloseDialog.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleUsernameTextChange = this.handleUsernameTextChange.bind(this);
+        this.handleLimitChange = this.handleLimitChange.bind(this);
     }
 
     static mapStateToProps(state: any) {
@@ -43,14 +47,15 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
             query: state.query,
             dialogOpen: state.query.isQueryBuildDialogOpen,
             daemonStatus: state.query.daemonStatus,
-            username: state.query.username
+            username: state.query.username,
+            limit: state.query.limit
         };
     }
 
     static mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         return {
-            storeQuery: (username: string, query: string) => {
-                dispatch(storeQueryThunk(username, query));
+            storeQuery: (username: string, query: string, limit: number) => {
+                dispatch(storeQueryThunk(username, query, limit));
             },
             closeDialog: () => {
                 dispatch(closeBuildQueryDialog());
@@ -60,6 +65,9 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
             },
             changeUsername: (username: string) => {
                 dispatch(usernameTextChanged(username));
+            },
+            changeLimit: (limit: number) => {
+                dispatch(limitChanged(limit));
             }
         };
     }
@@ -67,7 +75,8 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
     public clickStoreQuery() {
         const username = this.props.username;
         const query = this.props.query.queryString;
-        this.props.storeQuery(username, query);
+        const limit = this.props.query.limit;
+        this.props.storeQuery(username, query, limit);
         this.props.closeDialog();
     }
 
@@ -81,6 +90,10 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
 
     public handleUsernameTextChange(event: any) {
         this.props.changeUsername(event.target.value);
+    }
+
+    public handleLimitChange(event: any) {
+        this.props.changeLimit(event.target.value);
     }
 
     render() {
@@ -116,6 +129,19 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
                         rows={3}
                         expandable
                         value={this.props.query.queryString}
+                    />
+                    <div>
+                        <b>Limit results to:</b>
+                    </div>
+                    <Textfield
+                        className="limittextbox"
+                        key="LimitField"
+                        pattern="-?[0-9]*(\.[0-9]+)?"
+                        error="Input is not a number!"
+                        onChange={this.handleLimitChange}
+                        label="Limit..."
+                        required={true}
+                        value={this.props.limit}
                     />
                     <div>
                         <b>Username:</b>

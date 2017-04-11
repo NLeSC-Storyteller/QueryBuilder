@@ -14,6 +14,7 @@ import { OPEN_REBUILD_DATABASE_DIALOG }     from '../actions';
 import { CLOSE_REBUILD_DATABASE_DIALOG }    from '../actions';
 import { PASSWORD_TEXT_CHANGED }            from '../actions';
 import { USERNAME_TEXT_CHANGED }            from '../actions';
+import { LIMIT_CHANGED }                    from '../actions';
 
 import { collections }    from '../config';
 import { GenericAction }  from '../types';
@@ -27,7 +28,8 @@ const initstate: any = {
     isRebuildDatabaseDialogOpen: false,
     selectedMentionCount: 0,
     username: 'defaultuser',
-    queryString: ''
+    queryString: '',
+    limit: 100
 };
 
 function aggregateSelected(nodes : any, node: Node) : Node[] {
@@ -163,6 +165,9 @@ export const queryReducer = (state: any = initstate, action: GenericAction) => {
     } else if (action.type === USERNAME_TEXT_CHANGED) {
         const { username } = action.payload;
         return Object.assign({}, state.query, {username});
+    } else if (action.type === LIMIT_CHANGED) {
+        const { limit } = action.payload;
+        return Object.assign({}, state.query, {limit});
     } else if (action.type === STORE_QUERY_WAS_CLICKED) {
         //Needs something done, like a spinner or something.
         return state.query;
