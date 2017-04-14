@@ -16,7 +16,7 @@ import '../shared.css';
 import './QueryDialogs.css';
 
 interface IQueryBuildDialogDispatchProps {
-    storeQuery: (username: string, query: string, limit: number) => void;
+    storeQuery: (username: string, query: string, mention_limit: number) => void;
     closeDialog: () => void;
     changeUsername: (username: string) => void;
     changeQueryText: (newtext: string) => void;
@@ -28,7 +28,7 @@ export interface IQueryBuildDialog {
     dialogOpen: boolean;
     daemonStatus: number;
     username: string;
-    limit: number;
+    mention_limit: number;
 }
 
 export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDialog & IQueryBuildDialogDispatchProps, {}> {
@@ -48,14 +48,14 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
             dialogOpen: state.query.isQueryBuildDialogOpen,
             daemonStatus: state.query.daemonStatus,
             username: state.query.username,
-            limit: state.query.limit
+            mention_limit: state.query.mention_limit
         };
     }
 
     static mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         return {
-            storeQuery: (username: string, query: string, limit: number) => {
-                dispatch(storeQueryThunk(username, query, limit));
+            storeQuery: (username: string, query: string, mention_limit: number) => {
+                dispatch(storeQueryThunk(username, query, mention_limit));
             },
             closeDialog: () => {
                 dispatch(closeBuildQueryDialog());
@@ -66,8 +66,8 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
             changeUsername: (username: string) => {
                 dispatch(usernameTextChanged(username));
             },
-            changeLimit: (limit: number) => {
-                dispatch(limitChanged(limit));
+            changeLimit: (mention_limit: number) => {
+                dispatch(limitChanged(mention_limit));
             }
         };
     }
@@ -75,8 +75,8 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
     public clickStoreQuery() {
         const username = this.props.username;
         const query = this.props.query.queryString;
-        const limit = this.props.query.limit;
-        this.props.storeQuery(username, query, limit);
+        const mention_limit = this.props.query.mention_limit;
+        this.props.storeQuery(username, query, mention_limit);
         this.props.closeDialog();
     }
 
@@ -141,7 +141,7 @@ export class UnconnectedQueryBuildDialog extends React.Component<IQueryBuildDial
                         onChange={this.handleLimitChange}
                         label="Limit..."
                         required={true}
-                        value={this.props.limit}
+                        value={this.props.mention_limit}
                     />
                     <div>
                         <b>Username:</b>

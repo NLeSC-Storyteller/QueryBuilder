@@ -1,8 +1,8 @@
 import { LIMIT_CHANGED }    from '../authorized-actions';
 
-export const limitChanged = (limit: number) => {
+export const limitChanged = (mention_limit: number) => {
     return {
         type: LIMIT_CHANGED,
-        payload: { limit }
+        payload: { mention_limit }
     };
 };

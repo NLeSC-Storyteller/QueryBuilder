@@ -29,7 +29,7 @@ const initstate: any = {
     selectedMentionCount: 0,
     username: 'defaultuser',
     queryString: '',
-    limit: 100
+    mention_limit: 100
 };
 
 function aggregateSelected(nodes : any, node: Node) : Node[] {
@@ -166,8 +166,8 @@ export const queryReducer = (state: any = initstate, action: GenericAction) => {
         const { username } = action.payload;
         return Object.assign({}, state.query, {username});
     } else if (action.type === LIMIT_CHANGED) {
-        const { limit } = action.payload;
-        return Object.assign({}, state.query, {limit});
+        const { mention_limit } = action.payload;
+        return Object.assign({}, state.query, {mention_limit});
     } else if (action.type === STORE_QUERY_WAS_CLICKED) {
         //Needs something done, like a spinner or something.
         return state.query;
