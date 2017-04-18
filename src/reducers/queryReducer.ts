@@ -79,49 +79,54 @@ function countMentions(state: any) : number {
     }
 }
 
-function createQueryString(state: any) : string {
+function getTypesFromSlice(stateSlice: any) : string[] {
+    const types : string[] = [];
+    stateSlice.forEach((entity: any) => {
+        if (types.indexOf(entity.queryType) < 0) {
+            types.push(entity.queryType);
+        }
+    });
+
+    return types;
+}
+
+function concatQueriesOfType(stateSlice: any, type: string) : string {
     let result : string = '';
 
-    if (state.light && state.light.length > 0) {
-        state.light.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
+    stateSlice.forEach((entity: any) => {
+        if (entity.queryType === type) {
+            result += ' ' + entity.query + ';';
+        }
+    });
+
+    return result;
+}
+
+function createSingleTypeQueryString(stateSlice: any) : string {
+    let result : string = '';
+
+    if (stateSlice && stateSlice.length > 0) {
+        const types : string[] = getTypesFromSlice(stateSlice);
+
+        types.forEach((type: string) => {
+            result += ' --' + type;
+            result += concatQueriesOfType(stateSlice, type);
         });
     }
-    if (state.dark && state.dark.length > 0) {
-        state.dark.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
-        });
-    }
-    if (state.concepts && state.concepts.length > 0) {
-        state.concepts.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
-        });
-    }
-    if (state.events && state.events.length > 0) {
-        state.events.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
-        });
-    }
-    if (state.authors && state.authors.length > 0) {
-        state.authors.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
-        });
-    }
-    if (state.cited && state.cited.length > 0) {
-        state.cited.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
-        });
-    }
-    if (state.topics && state.topics.length > 0) {
-        state.topics.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
-        });
-    }
-    if (state.perspectives && state.perspectives.length > 0) {
-        state.perspectives.forEach((entity: any) => {
-            result += ' --' + entity.queryType + ' ' + entity.query + ';';
-        });
-    }
+
+    return result;
+}
+
+function createQueryString(state: any) : string {
+    let result : string = '';
+    result += createSingleTypeQueryString(state.light);
+    result += createSingleTypeQueryString(state.dark);
+    result += createSingleTypeQueryString(state.concepts);
+    result += createSingleTypeQueryString(state.events);
+    result += createSingleTypeQueryString(state.authors);
+    result += createSingleTypeQueryString(state.cited);
+    result += createSingleTypeQueryString(state.topics);
+    result += createSingleTypeQueryString(state.perspectives);
 
     return result;
 }
