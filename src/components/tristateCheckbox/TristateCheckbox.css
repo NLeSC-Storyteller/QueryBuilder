@@ -6,6 +6,7 @@
 /* modify the default mdl checkbox behaviour, original values commented out */
 .mycheckbox {
     width: 10px !important;
+    padding-left: 24px;
 }
 
 /* the ' - ' partial checkbox state */
@@ -25,3 +26,4 @@
     border-left: 0;
     content: '';
 }
+
