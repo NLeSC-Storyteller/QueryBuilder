@@ -1,7 +1,7 @@
 import { Dispatch }                             from 'redux';
 
 import { storeQueryWasClicked }                 from '../';
-import { baseurl }                              from '../../config';
+import { daemonurl }                            from '../../config';
 import { GenericAction }                        from '../../types';
 
 export interface IDatabaseNumberRecord {
@@ -25,12 +25,31 @@ export const storeQueryThunk = (username: string, query: string, mention_limit: 
 
         dispatch(storeQueryWasClicked(username, query, mention_limit));
 
-        const url: string = baseurl + 'addquery/';
+        const url: string = daemonurl + 'jobs/';
 
         const querydata = JSON.stringify({
-            username,
-            query,
-            mention_limit
+            name: username,
+            workflow: 'doKSQuery.cwl',
+            input: {
+                ksQuery: query,
+                ksQuerylimit: mention_limit,
+                logging: true,
+
+                classpath: {
+                  class: 'File',
+                  path: 'StoryTeller-v1.0-jar-with-dependencies.jar'
+                },
+
+                tokenIndex: {
+                  class: 'File',
+                  path: 'token.index.gz'
+                },
+
+                eurovoc: {
+                  class: 'File',
+                  path: 'mapping_eurovoc_skos.label.concept.gz'
+                }
+            }
         });
 
         fetch(url, {
