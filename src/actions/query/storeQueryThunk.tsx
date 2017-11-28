@@ -32,7 +32,7 @@ export const storeQueryThunk = (username: string, query: string, mention_limit: 
             workflow: 'doKSQuery.cwl',
             input: {
                 ksQuery: query,
-                ksQuerylimit: mention_limit,
+                ksQuerylimit: Number(mention_limit),
                 logging: true,
 
                 classpath: {
