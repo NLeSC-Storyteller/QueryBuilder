@@ -8,7 +8,7 @@
     "@nlesc/react-scripts": "0.1.2",
     "@types/react": "^0.14.50",
     "@types/react-dom": "^0.14.19",
-    "@types/react-mdl": "^1.7.18",
+    "@types/react-mdl": "1.7.18",
     "@types/react-redux": "^4.4.33",
     "@types/whatwg-fetch": "0.0.32"
   },
