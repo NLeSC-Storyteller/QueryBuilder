@@ -6,21 +6,22 @@
   "private": false,
   "devDependencies": {
     "@nlesc/react-scripts": "0.1.2",
-    "@types/react": "^0.14.50",
-    "@types/react-dom": "^0.14.19",
-    "@types/react-mdl": "^1.7.18",
-    "@types/react-redux": "^4.4.33",
+    "@types/react": "0.14.57",
+    "@types/react-dom": "0.14.23",
+    "@types/react-mdl": "1.7.18",
+    "@types/react-redux": "4.4.47",
+    "@types/whatwg-streams": "0.0.3",
     "@types/whatwg-fetch": "0.0.32"
   },
   "dependencies": {
-    "classnames": "^2.2.5",
-    "react": "^15.4.0",
-    "react-dom": "^15.4.0",
-    "react-mdl": "^1.9.0",
-    "react-redux": "^4.4.6",
-    "redux": "^3.6.0",
-    "redux-thunk": "^2.1.0",
-    "whatwg-fetch": "^2.0.1"
+    "classnames": "2.2.5",
+    "react": "15.6.2",
+    "react-dom": "15.6.2",
+    "react-mdl": "1.11.0",
+    "react-redux": "4.4.8",
+    "redux": "3.7.2",
+    "redux-thunk": "2.2.0",
+    "whatwg-fetch": "2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
